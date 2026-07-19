@@ -11,9 +11,7 @@ export const connectDB = async () => {
   }
 
   try {
-    await mongoose.connect(process.env.MONGODB_URI, {
-      dbName: process.env.MONGO_DB_NAME || "micro_investment",
-    });
+    await mongoose.connect(process.env.MONGODB_URI);
 
     mongoAvailable = true;
     console.log("MongoDB connected");
