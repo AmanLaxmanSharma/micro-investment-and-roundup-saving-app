@@ -53,13 +53,25 @@ export const register = async (req, res, next) => {
 export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
+
+    console.log("Login email:", email);
+
     const user = await findUserByEmail(email);
+
+    console.log("User found:", !!user);
+
+    if (user) {
+      console.log("Stored password:", user.password);
+    }
 
     if (!user) {
       throw new CustomError("Invalid credentials", 401);
     }
 
     const isMatch = await comparePassword(password, user.password);
+
+    console.log("Password match:", isMatch);
+
     if (!isMatch) {
       throw new CustomError("Invalid credentials", 401);
     }
