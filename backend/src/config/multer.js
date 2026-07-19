@@ -3,8 +3,8 @@ import path from "path";
 import fs from "fs";
 import CustomError from "../utils/customError.js";
 
-// Ensure upload directory exists
-const uploadDir = "./src/uploads";
+const uploadDir = "/tmp/uploads";
+
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
