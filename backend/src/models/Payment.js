@@ -1,0 +1,47 @@
+import mongoose from "mongoose";
+
+const paymentSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    gateway: {
+      type: String,
+      required: true,
+      enum: ["stripe", "razorpay"],
+    },
+    gatewayOrderId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    gatewayPaymentId: {
+      type: String,
+      default: "",
+    },
+    amount: {
+      type: mongoose.Schema.Types.Decimal128,
+      required: true,
+    },
+    currency: {
+      type: String,
+      required: true,
+      default: "USD",
+    },
+    status: {
+      type: String,
+      required: true,
+      enum: ["created", "captured", "failed"],
+      default: "created",
+    },
+  },
+  { timestamps: true },
+);
+
+paymentSchema.index({ gatewayOrderId: 1 });
+
+const Payment = mongoose.model("Payment", paymentSchema);
+
+export default Payment;
