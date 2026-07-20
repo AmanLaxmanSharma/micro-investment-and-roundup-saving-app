@@ -22,6 +22,14 @@ import { seedPortfolios } from "./utils/portfolioStore.js";
 
 const app = express();
 
+app.set("trust proxy", 1);
+
+// Middleware to ensure database connection is established in serverless environments
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
+
 const allowedOrigins = [
   process.env.FRONTEND_URL,
   "http://localhost:5173",

@@ -3,6 +3,11 @@ import mongoose from "mongoose";
 let mongoAvailable = false;
 
 export const connectDB = async () => {
+  if (mongoose.connection.readyState >= 1) {
+    mongoAvailable = true;
+    return;
+  }
+
   if (!process.env.MONGODB_URI) {
     console.warn(
       "MONGODB_URI not set. Running without a database connection for local development.",
@@ -17,10 +22,8 @@ export const connectDB = async () => {
     console.log("MongoDB connected");
   } catch (error) {
     mongoAvailable = false;
-    console.warn(
-      "MongoDB connection failed. Falling back to in-memory auth storage for local development.",
-      error.message,
-    );
+    console.error("MongoDB Error:");
+    console.error(error);
   }
 };
 
