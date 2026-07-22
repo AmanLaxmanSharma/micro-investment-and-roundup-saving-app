@@ -86,6 +86,8 @@ export default function DashboardPage() {
     } finally {
       setLoadingStats(false);
     }
+  };
+
   // Advisor dashboard stats state
   const [advisorContacts, setAdvisorContacts] = useState([]);
   const [loadingAdvisorData, setLoadingAdvisorData] = useState(false);
