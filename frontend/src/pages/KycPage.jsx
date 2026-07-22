@@ -154,7 +154,7 @@ export default function KycPage() {
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 p-8 rounded-2xl border border-slate-900 bg-slate-950/50">
               <h3 className="text-xl font-bold text-white">Upload New Identity Document</h3>
-              
+
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
@@ -165,8 +165,8 @@ export default function KycPage() {
                     className="block w-full px-3 py-2.5 bg-slate-900 border border-slate-800 text-slate-300 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all"
                   >
                     <option value="passport">Passport</option>
-                    <option value="national_id">National ID Card</option>
-                    <option value="driver_license">Driver's License</option>
+                    <option value="national_id">Adhar Card</option>
+                    <option value="driver_license">PAN Card</option>
                   </select>
                 </div>
 
@@ -180,9 +180,8 @@ export default function KycPage() {
                       required: "Document ID number is required",
                     })}
                     placeholder="e.g. DL129302"
-                    className={`block w-full px-3 py-2.5 bg-slate-900 border ${
-                      errors.documentNumber ? "border-rose-500" : "border-slate-800"
-                    } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all`}
+                    className={`block w-full px-3 py-2.5 bg-slate-900 border ${errors.documentNumber ? "border-rose-500" : "border-slate-800"
+                      } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all`}
                   />
                   {errors.documentNumber && (
                     <p className="mt-1 text-xs text-rose-500 font-medium">
