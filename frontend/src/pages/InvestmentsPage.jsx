@@ -80,7 +80,7 @@ export default function InvestmentsPage() {
         ...data,
         amount: investAmount,
       });
-      toast.success(`Successfully invested $${investAmount.toFixed(2)} into ${data.portfolioName}!`);
+      toast.success(`Successfully invested ₹${investAmount.toFixed(2)} into ${data.portfolioName}!`);
       reset();
       fetchData();
     } catch (err) {
@@ -122,7 +122,7 @@ export default function InvestmentsPage() {
               Available Cash (Sikka Wallet)
             </span>
             <h4 className="text-2xl font-bold text-white font-mono mt-0.5">
-              ${parseFloat(wallet?.balance?.toString() || "0.00").toFixed(2)}
+              ₹{parseFloat(wallet?.balance?.toString() || "0.00").toFixed(2)}
             </h4>
           </div>
         </div>
@@ -204,14 +204,14 @@ export default function InvestmentsPage() {
 
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
-                  Investment Amount ($)
+                  Investment Amount (₹)
                 </label>
                 <input
                   type="number"
                   step="0.01"
                   {...register("amount", {
                     required: "Amount is required",
-                    min: { value: 1.0, message: "Minimum investment is $1.00" },
+                    min: { value: 1.0, message: "Minimum investment is ₹1.00" },
                   })}
                   placeholder="e.g. 100.00"
                   className={`block w-full px-3 py-2.5 bg-slate-900 border ${
@@ -264,7 +264,7 @@ export default function InvestmentsPage() {
 
                   <div className="text-right space-y-1">
                     <div className="font-mono font-extrabold text-brand-400 text-base">
-                      ${parseFloat(inv.amount).toFixed(2)}
+                      ₹{parseFloat(inv.amount).toFixed(2)}
                     </div>
                     <span className="text-[9px] font-bold text-green-400 bg-green-500/10 px-2 py-0.5 rounded border border-green-500/20 inline-block uppercase">
                       {inv.status}

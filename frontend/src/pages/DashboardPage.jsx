@@ -192,7 +192,7 @@ export default function DashboardPage() {
                 </div>
                 <div className="space-y-1">
                   <h3 className="text-3xl font-extrabold text-white font-mono">
-                    ${totalValuation.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    ₹{totalValuation.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </h3>
                   <p className="text-xs text-slate-500">In-portfolio allocations</p>
                 </div>
@@ -210,7 +210,7 @@ export default function DashboardPage() {
                 </div>
                 <div className="space-y-1">
                   <h3 className="text-3xl font-extrabold text-white font-mono">
-                    ${parseFloat(wallet?.balance || 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    ₹{parseFloat(wallet?.balance || 0).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </h3>
                   <p className="text-xs text-slate-500">Available to withdraw/invest</p>
                 </div>
@@ -228,7 +228,7 @@ export default function DashboardPage() {
                 </div>
                 <div className="space-y-1">
                   <h3 className="text-3xl font-extrabold text-white font-mono">
-                    ${totalRoundups.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    ₹{totalRoundups.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </h3>
                   <p className="text-xs text-slate-500">Aggregated spare change</p>
                 </div>
@@ -316,8 +316,8 @@ export default function DashboardPage() {
                               </span>
                             </div>
                             <div className="text-right">
-                              <span className="text-xs font-bold text-brand-400 font-mono">${current.toFixed(0)}</span>
-                              <span className="text-xs text-slate-500 font-mono"> / ${target.toFixed(0)}</span>
+                              <span className="text-xs font-bold text-brand-400 font-mono">₹{current.toFixed(0)}</span>
+                              <span className="text-xs text-slate-500 font-mono"> / ₹{target.toFixed(0)}</span>
                             </div>
                           </div>
                           <div className="space-y-1">
@@ -386,10 +386,10 @@ export default function DashboardPage() {
                               {ru.description || "General Purchase"}
                             </td>
                             <td className="px-5 py-4 whitespace-nowrap text-sm text-slate-400 text-center font-mono">
-                              ${parseFloat(ru.amount || 0).toFixed(2)}
+                              ₹{parseFloat(ru.amount || 0).toFixed(2)}
                             </td>
                             <td className="px-5 py-4 whitespace-nowrap text-sm font-bold text-brand-400 text-right font-mono">
-                              +${parseFloat(ru.roundUpAmount || 0).toFixed(2)}
+                              +₹{parseFloat(ru.roundUpAmount || 0).toFixed(2)}
                             </td>
                             <td className="px-5 py-4 whitespace-nowrap text-center">
                               <span className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase ${
@@ -500,7 +500,7 @@ export default function DashboardPage() {
                         </div>
                         <div className="text-right">
                           <span className="text-sm font-bold text-emerald-400 font-mono">
-                            ${parseFloat(inv.amount || 0).toLocaleString("en-US", { minimumFractionDigits: 2 })}
+                            ₹{parseFloat(inv.amount || 0).toLocaleString("en-IN", { minimumFractionDigits: 2 })}
                           </span>
                           <span className="text-[10px] text-slate-500 block uppercase font-mono tracking-wider">{inv.allocation}</span>
                         </div>

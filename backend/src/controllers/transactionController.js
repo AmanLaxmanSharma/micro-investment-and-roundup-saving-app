@@ -4,6 +4,7 @@ import {
   updateTransactionForUser,
   deleteTransactionForUser,
 } from "../utils/transactionStore.js";
+import { updateWalletBalance, createWalletTransaction } from "../utils/walletStore.js";
 import { processTransactionRoundUp } from "../services/roundUpService.js";
 import { sendSuccess } from "../utils/responseHelper.js";
 import CustomError from "../utils/customError.js";
@@ -21,6 +22,24 @@ export const createTransaction = async (req, res, next) => {
   try {
     const created = await createTransactionForUser(req.user.id, req.body);
     
+    // Automatically adjust wallet balance for deposits and withdrawals
+    const txAmount = parseFloat(req.body.amount || 0);
+    if (req.body.type === "deposit" && txAmount > 0) {
+      await updateWalletBalance(req.user.id, txAmount);
+      await createWalletTransaction(req.user.id, {
+        type: "deposit",
+        amount: txAmount,
+        status: "success",
+      });
+    } else if (req.body.type === "withdrawal" && txAmount > 0) {
+      await updateWalletBalance(req.user.id, -txAmount);
+      await createWalletTransaction(req.user.id, {
+        type: "withdrawal",
+        amount: txAmount,
+        status: "success",
+      });
+    }
+
     // Automatically trigger the round-up calculation process for spending transactions
     let roundUp = null;
     try {

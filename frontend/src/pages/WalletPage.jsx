@@ -123,11 +123,11 @@ export default function WalletPage() {
         gatewayOrderId: pendingPayment.gatewayOrderId,
         gatewayPaymentId: `pay_${Date.now()}`,
       });
-      toast.success(`Allocated $${parseFloat(pendingPayment.amount).toFixed(2)} to wallet balance!`);
+      toast.success(`Allocated ₹${parseFloat(pendingPayment.amount).toFixed(2)} to wallet balance!`);
       setPendingPayment(null);
       fetchWalletData();
     } catch (err) {
-      // Intercepted
+      toast.error("Could not confirm deposit.");
     }
   };
 
@@ -146,7 +146,7 @@ export default function WalletPage() {
     setSubmittingWithdraw(true);
     try {
       await api.post("/api/wallet/withdraw", { amount });
-      toast.success(`Successfully withdrew $${amount.toFixed(2)} from Sikka Wallet.`);
+      toast.success(`Successfully withdrew ₹${amount.toFixed(2)} from Sikka Wallet.`);
       withdrawForm.reset();
       fetchWalletData();
     } catch (err) {
@@ -173,7 +173,7 @@ export default function WalletPage() {
           Sikka Wallet & Payments
         </h2>
         <p className="text-slate-400">
-          Deposit cash via simulated gateways, track historical ledgers, and manage balance withdrawals.
+          Deposit cash via payment gateway, track historical ledgers, and manage balance withdrawals.
         </p>
       </div>
 
@@ -191,7 +191,7 @@ export default function WalletPage() {
             })()}
           </h3>
           <p className="text-xs text-slate-500">
-            Linked to account: {wallet?.currency || "USD"} Base Ledger
+            Linked to account: {wallet?.currency || "INR"} Base Ledger
           </p>
         </div>
 
@@ -205,7 +205,7 @@ export default function WalletPage() {
             <div className="text-xs text-slate-400 space-y-1">
               <p>Order: {pendingPayment.gatewayOrderId}</p>
               <p>Gateway: {pendingPayment.gateway.toUpperCase()}</p>
-              <p>Amount: ${parseFloat(pendingPayment.amount).toFixed(2)}</p>
+              <p>Amount: ₹{parseFloat(pendingPayment.amount).toFixed(2)}</p>
             </div>
             <div className="flex gap-2">
               <button
@@ -237,16 +237,16 @@ export default function WalletPage() {
             <form onSubmit={depositForm.handleSubmit(handleDepositSubmit)} className="space-y-4">
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
-                  Deposit Amount ($)
+                  Deposit Amount (₹)
                 </label>
                 <input
                   type="number"
                   step="0.01"
                   {...depositForm.register("amount", {
                     required: "Deposit amount is required",
-                    min: { value: 1.0, message: "Minimum deposit is $1.00" },
+                    min: { value: 1.0, message: "Minimum deposit is ₹1.00" },
                   })}
-                  placeholder="e.g. 50.00"
+                  placeholder="e.g. 500.00"
                   className={`block w-full px-3 py-2.5 bg-slate-900 border ${
                     depositForm.formState.errors.amount ? "border-rose-500" : "border-slate-800"
                   } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-500 transition-all`}
@@ -277,16 +277,16 @@ export default function WalletPage() {
             <form onSubmit={withdrawForm.handleSubmit(handleWithdrawSubmit)} className="space-y-4">
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
-                  Withdrawal Amount ($)
+                  Withdrawal Amount (₹)
                 </label>
                 <input
                   type="number"
                   step="0.01"
                   {...withdrawForm.register("amount", {
                     required: "Withdrawal amount is required",
-                    min: { value: 1.0, message: "Minimum withdrawal is $1.00" },
+                    min: { value: 1.0, message: "Minimum withdrawal is ₹1.00" },
                   })}
-                  placeholder="e.g. 20.00"
+                  placeholder="e.g. 200.00"
                   className={`block w-full px-3 py-2.5 bg-slate-900 border ${
                     withdrawForm.formState.errors.amount ? "border-rose-500" : "border-slate-800"
                   } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-500 transition-all`}
@@ -348,7 +348,7 @@ export default function WalletPage() {
                         tx.type === "deposit" ? "text-green-400" : "text-rose-400"
                       }`}
                     >
-                      {tx.type === "deposit" ? "+" : "-"}${parseFloat(tx.amount).toFixed(2)}
+                      {tx.type === "deposit" ? "+" : "-"}₹{parseFloat(tx.amount).toFixed(2)}
                     </div>
                     <span className="text-[9px] font-bold text-green-400 bg-green-500/10 px-2 py-0.5 rounded border border-green-500/20">
                       {tx.status.toUpperCase()}

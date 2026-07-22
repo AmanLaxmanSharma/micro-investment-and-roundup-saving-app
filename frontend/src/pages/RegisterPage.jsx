@@ -74,10 +74,9 @@ export default function RegisterPage() {
                     message: "Only letters allowed",
                   },
                 })}
-                className={`block w-full px-3 py-2 bg-slate-900 border ${
-                  errors.firstName ? "border-rose-500" : "border-slate-800"
-                } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all`}
-                placeholder="John"
+                className={`block w-full px-3 py-2 bg-slate-900 border ${errors.firstName ? "border-rose-500" : "border-slate-800"
+                  } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all`}
+                placeholder="Aman"
               />
               {errors.firstName && (
                 <p className="mt-1 text-xs text-rose-500 font-medium">
@@ -99,10 +98,9 @@ export default function RegisterPage() {
                     message: "Only letters allowed",
                   },
                 })}
-                className={`block w-full px-3 py-2 bg-slate-900 border ${
-                  errors.lastName ? "border-rose-500" : "border-slate-800"
-                } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all`}
-                placeholder="Doe"
+                className={`block w-full px-3 py-2 bg-slate-900 border ${errors.lastName ? "border-rose-500" : "border-slate-800"
+                  } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all`}
+                placeholder="Sharma"
               />
               {errors.lastName && (
                 <p className="mt-1 text-xs text-rose-500 font-medium">
@@ -129,9 +127,8 @@ export default function RegisterPage() {
                     message: "Invalid email format",
                   },
                 })}
-                className={`block w-full pl-10 pr-3 py-2 bg-slate-900 border ${
-                  errors.email ? "border-rose-500" : "border-slate-800"
-                } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all`}
+                className={`block w-full pl-10 pr-3 py-2 bg-slate-900 border ${errors.email ? "border-rose-500" : "border-slate-800"
+                  } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all`}
                 placeholder="name@example.com"
               />
             </div>
@@ -159,9 +156,8 @@ export default function RegisterPage() {
                     message: "Password must be at least 6 characters",
                   },
                 })}
-                className={`block w-full pl-10 pr-3 py-2 bg-slate-900 border ${
-                  errors.password ? "border-rose-500" : "border-slate-800"
-                } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all`}
+                className={`block w-full pl-10 pr-3 py-2 bg-slate-900 border ${errors.password ? "border-rose-500" : "border-slate-800"
+                  } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all`}
                 placeholder="••••••••"
               />
             </div>

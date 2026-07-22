@@ -32,17 +32,17 @@ export const chatWithAiAssistant = async (req, res, next) => {
     const riskScore = riskProfile ? riskProfile.score : "N/A";
 
     const goalsSummary = goals.length > 0
-      ? goals.map((g) => `- ${g.name}: $${parseFloat(g.currentAmount.toString()).toFixed(2)} saved of $${parseFloat(g.targetAmount.toString()).toFixed(2)} target (Due: ${new Date(g.targetDate).toLocaleDateString()})`).join("\n")
+      ? goals.map((g) => `- ${g.name}: ₹${parseFloat(g.currentAmount.toString()).toFixed(2)} saved of ₹${parseFloat(g.targetAmount.toString()).toFixed(2)} target (Due: ${new Date(g.targetDate).toLocaleDateString()})`).join("\n")
       : "No active goals set.";
 
     const txSummary = transactions.length > 0
-      ? transactions.slice(0, 5).map((t) => `- ${t.description || "Transaction"}: ${t.type === "withdrawal" ? "-" : "+"}$${parseFloat(t.amount).toFixed(2)} (${new Date(t.createdAt).toLocaleDateString()})`).join("\n")
+      ? transactions.slice(0, 5).map((t) => `- ${t.description || "Transaction"}: ${t.type === "withdrawal" ? "-" : "+"}₹${parseFloat(t.amount).toFixed(2)} (${new Date(t.createdAt).toLocaleDateString()})`).join("\n")
       : "No recent transaction activities.";
 
     const systemInstruction = `You are Sikka AI, a premium, helpful, and sophisticated AI Financial Advisor built into Sikka (Micro-Investment & Round-Up Savings App).
 You have access to the user's live profile details below to provide highly personalized financial suggestions:
 - User Name: ${req.user.name || "Sikka Investor"}
-- Wallet Balance: $${walletBalance} USD
+- Wallet Balance: ₹${walletBalance} INR
 - Connected Bank Accounts: ${bankCount} accounts linked
 - Risk Profile Assessment: Level: ${riskLevel} (Score: ${riskScore})
 - Active Savings Goals:

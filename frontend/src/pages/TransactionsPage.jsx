@@ -57,7 +57,7 @@ export default function TransactionsPage() {
       const roundUp = response.data.data.roundUpCalculated;
       if (roundUp) {
         toast.success(
-          `Transaction logged! Saved spare change: $${roundUp.roundUpAmount} in your piggy bank!`,
+          `Transaction logged! Saved spare change: ₹${roundUp.roundUpAmount} in your piggy bank!`,
           { autoClose: 6000 }
         );
       } else {
@@ -131,14 +131,14 @@ export default function TransactionsPage() {
 
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
-                Amount ($)
+                Amount (₹)
               </label>
               <input
                 type="number"
                 step="0.01"
                 {...register("amount", {
                   required: "Amount is required",
-                  min: { value: 0.01, message: "Must be greater than $0.00" },
+                  min: { value: 0.01, message: "Must be greater than ₹0.00" },
                 })}
                 placeholder="12.45"
                 className={`block w-full px-3 py-2 bg-slate-900 border ${
@@ -254,7 +254,7 @@ export default function TransactionsPage() {
                           </span>
                         </td>
                         <td className="py-4 px-6 font-mono font-bold text-white">
-                          ${parseFloat(tx.amount).toFixed(2)}
+                          ₹{parseFloat(tx.amount).toFixed(2)}
                         </td>
                         <td className="py-4 px-6">
                           {tx.isRoundUpProcessed ? (

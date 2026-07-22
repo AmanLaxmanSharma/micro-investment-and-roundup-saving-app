@@ -55,7 +55,7 @@ export default function RoundUpsPage() {
           </div>
           <div className="space-y-1">
             <h3 className="text-4xl font-extrabold text-white font-mono">
-              ${totalSaved.toFixed(2)}
+              ₹{totalSaved.toFixed(2)}
             </h3>
             <p className="text-xs text-slate-500">All-time harvested spare change</p>
           </div>
@@ -70,7 +70,7 @@ export default function RoundUpsPage() {
           </div>
           <div className="space-y-1">
             <h3 className="text-4xl font-extrabold text-white font-mono">
-              ${pendingInvest.toFixed(2)}
+              ₹{pendingInvest.toFixed(2)}
             </h3>
             <p className="text-xs text-slate-500">Awaiting portfolio trigger</p>
           </div>
@@ -85,7 +85,7 @@ export default function RoundUpsPage() {
           </div>
           <div className="space-y-1">
             <h3 className="text-4xl font-extrabold text-white font-mono">
-              ${investedAmount.toFixed(2)}
+              ₹{investedAmount.toFixed(2)}
             </h3>
             <p className="text-xs text-slate-500">Allocated to growth portfolios</p>
           </div>
@@ -121,7 +121,7 @@ export default function RoundUpsPage() {
                     {entry.description || "Spare Change round-up"}
                   </div>
                   <div className="flex gap-3 text-xs text-slate-500">
-                    <span>Spent: ${parseFloat(entry.transactionAmount).toFixed(2)}</span>
+                    <span>Spent: ₹{parseFloat(entry.transactionAmount).toFixed(2)}</span>
                     <span>•</span>
                     <span>{new Date(entry.createdAt).toLocaleDateString()}</span>
                   </div>
@@ -130,7 +130,7 @@ export default function RoundUpsPage() {
                 <div className="flex items-center gap-4">
                   <div className="text-right space-y-1">
                     <div className="font-mono font-extrabold text-brand-400 text-lg">
-                      +${parseFloat(entry.roundUpAmount).toFixed(2)}
+                      +₹{parseFloat(entry.roundUpAmount).toFixed(2)}
                     </div>
                     <span
                       className={`inline-flex items-center gap-1 text-[9px] font-bold px-2 py-0.5 rounded ${

@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Wallet from "../models/Wallet.js";
 import WalletTransaction from "../models/WalletTransaction.js";
 import { isMongoAvailable } from "../config/db.js";
@@ -9,11 +10,11 @@ export const getOrCreateWalletForUser = async (userId) => {
   if (isMongoAvailable()) {
     let wallet = await Wallet.findOne({ userId });
     if (!wallet) {
-      wallet = await Wallet.create({ userId, balance: 0.0 });
+      wallet = await Wallet.create({ userId, balance: 0.0, currency: "INR" });
     } else if (isNaN(parseFloat(wallet.balance.toString()))) {
       wallet = await Wallet.findOneAndUpdate(
         { userId },
-        { balance: 0.0 },
+        { balance: 0.0, currency: "INR" },
         { new: true }
       );
     }
@@ -26,7 +27,7 @@ export const getOrCreateWalletForUser = async (userId) => {
       _id: `${Date.now()}`,
       userId,
       balance: 0.0,
-      currency: "USD",
+      currency: "INR",
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -42,23 +43,26 @@ export const updateWalletBalance = async (userId, changeAmount) => {
 
   if (isMongoAvailable()) {
     const wallet = await getOrCreateWalletForUser(userId);
-    let currentBalance = parseFloat(wallet.balance.toString());
+    let currentBalance = parseFloat(wallet.balance ? wallet.balance.toString() : "0");
     if (isNaN(currentBalance)) currentBalance = 0.0;
 
     const newBalance = parseFloat((currentBalance + amount).toFixed(2));
-    return Wallet.findOneAndUpdate(
+    const decimalBalance = mongoose.Types.Decimal128.fromString(newBalance.toFixed(2));
+    const updated = await Wallet.findOneAndUpdate(
       { userId },
-      { balance: newBalance },
-      { new: true },
+      { balance: decimalBalance, currency: "INR" },
+      { new: true }
     );
+    return updated;
   }
 
   const key = userId.toString();
   const wallet = await getOrCreateWalletForUser(userId);
-  let currentBalance = parseFloat(wallet.balance.toString());
+  let currentBalance = parseFloat(wallet.balance ? wallet.balance.toString() : "0");
   if (isNaN(currentBalance)) currentBalance = 0.0;
 
   wallet.balance = parseFloat((currentBalance + amount).toFixed(2));
+  wallet.currency = "INR";
   wallet.updatedAt = new Date();
   memoryWallets.set(key, wallet);
   return wallet;
