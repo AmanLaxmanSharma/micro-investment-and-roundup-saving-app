@@ -5,7 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../services/api";
 import { setCredentials } from "../redux/authSlice";
-import { FiMail, FiLock, FiArrowRight, FiActivity } from "react-icons/fi";
+import { FiMail, FiLock, FiArrowRight, FiActivity, FiUserCheck } from "react-icons/fi";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
@@ -20,6 +20,7 @@ export default function LoginPage() {
     defaultValues: {
       email: "",
       password: "",
+      role: "investor",
     },
   });
 
@@ -29,7 +30,12 @@ export default function LoginPage() {
       const response = await api.post("/api/auth/login", data);
       // Backend returns { success: true, message: "...", data: { token, user } }
       dispatch(setCredentials(response.data.data));
-      toast.success("Welcome back to Sikka!");
+      const userRole = response.data.data.user?.role;
+      toast.success(
+        userRole === "advisor"
+          ? "Welcome to Sikka Advisor Portal!"
+          : "Welcome back to Sikka!"
+      );
       navigate("/dashboard");
     } catch (err) {
       // The Axios interceptor already toasts the error message, but we catch it here to reset loader
@@ -52,12 +58,30 @@ export default function LoginPage() {
             Secure Sign In
           </h2>
           <p className="mt-2 text-sm text-slate-400">
-            Access your secure Sikka investment portfolio
+            Access your Sikka Investor or Advisor account
           </p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
           <div className="space-y-4">
+            <div>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
+                Sign In As (Account Role)
+              </label>
+              <div className="relative rounded-lg shadow-sm">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+                  <FiUserCheck className="w-4 h-4" />
+                </div>
+                <select
+                  {...register("role")}
+                  className="block w-full pl-10 pr-3 py-2.5 bg-slate-900 border border-slate-800 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
+                >
+                  <option value="investor">Investor Account</option>
+                  <option value="advisor">Financial Advisor Account</option>
+                </select>
+              </div>
+            </div>
+
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
                 Email Address

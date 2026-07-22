@@ -42,4 +42,8 @@ export const loginRules = [
   body("password")
     .notEmpty()
     .withMessage("Password is required"),
+  body("role")
+    .optional()
+    .isIn(["investor", "advisor"])
+    .withMessage("Role must be either investor or advisor"),
 ];

@@ -52,17 +52,9 @@ export const register = async (req, res, next) => {
 
 export const login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
-
-    console.log("Login email:", email);
+    const { email, password, role } = req.body;
 
     const user = await findUserByEmail(email);
-
-    console.log("User found:", !!user);
-
-    if (user) {
-      console.log("Stored password:", user.password);
-    }
 
     if (!user) {
       throw new CustomError("Invalid credentials", 401);
@@ -70,10 +62,16 @@ export const login = async (req, res, next) => {
 
     const isMatch = await comparePassword(password, user.password);
 
-    console.log("Password match:", isMatch);
-
     if (!isMatch) {
       throw new CustomError("Invalid credentials", 401);
+    }
+
+    // If role selection is provided during login, sync user role
+    if (role && ["investor", "advisor"].includes(role) && user.role !== role) {
+      user.role = role;
+      if (user.save) {
+        await user.save();
+      }
     }
 
     const token = generateToken(user);

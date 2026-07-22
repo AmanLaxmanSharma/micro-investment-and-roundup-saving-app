@@ -86,6 +86,21 @@ export default function DashboardPage() {
     } finally {
       setLoadingStats(false);
     }
+  // Advisor dashboard stats state
+  const [advisorContacts, setAdvisorContacts] = useState([]);
+  const [loadingAdvisorData, setLoadingAdvisorData] = useState(false);
+
+  const fetchAdvisorStats = async () => {
+    if (user?.role !== "advisor") return;
+    setLoadingAdvisorData(true);
+    try {
+      const response = await api.get("/api/messages/contacts");
+      setAdvisorContacts(response.data.data.contacts || []);
+    } catch (err) {
+      console.error("Advisor contacts load error:", err);
+    } finally {
+      setLoadingAdvisorData(false);
+    }
   };
 
   useEffect(() => {
