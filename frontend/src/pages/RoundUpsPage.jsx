@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import api from "../services/api";
-import { FiActivity, FiInbox, FiTrendingUp, FiDollarSign, FiClock, FiCheck } from "react-icons/fi";
+import { parseAmount } from "../utils/parseAmount";
+import { FiActivity, FiInbox, FiTrendingUp, FiClock, FiCheck } from "react-icons/fi";
+import { FaRupeeSign } from "react-icons/fa";
 
 export default function RoundUpsPage() {
+  const { user } = useSelector((state) => state.auth);
+  const isAdvisor = user?.role === "advisor";
   const [roundUps, setRoundUps] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -36,11 +41,13 @@ export default function RoundUpsPage() {
     <div className="max-w-6xl mx-auto px-4 py-10 space-y-8">
       <div className="space-y-2">
         <h2 className="text-3xl font-extrabold tracking-tight text-white flex items-center gap-3">
-          <FiActivity className="text-brand-500" />
-          Round-Up Savings Ledger
+          <FiActivity className={isAdvisor ? "text-emerald-400" : "text-brand-500"} />
+          {isAdvisor ? "Client Micro-Savings & Round-Up Analytics" : "Round-Up Savings Ledger"}
         </h2>
         <p className="text-slate-400">
-          Track how spare change from daily spends is accumulated and prepared for portfolio allocation.
+          {isAdvisor
+            ? "Monitor client spare change accumulations and automated round-up triggers to analyze savings impact."
+            : "Track how spare change from daily spends is accumulated and prepared for portfolio allocation."}
         </p>
       </div>
 
@@ -51,7 +58,7 @@ export default function RoundUpsPage() {
             <span className="text-xs font-semibold uppercase tracking-wider">
               Total Accumulated
             </span>
-            <FiDollarSign className="text-brand-400 w-5 h-5" />
+            <FaRupeeSign className="text-brand-400 w-5 h-5" />
           </div>
           <div className="space-y-1">
             <h3 className="text-4xl font-extrabold text-white font-mono">
@@ -121,7 +128,7 @@ export default function RoundUpsPage() {
                     {entry.description || "Spare Change round-up"}
                   </div>
                   <div className="flex gap-3 text-xs text-slate-500">
-                    <span>Spent: ₹{parseFloat(entry.transactionAmount).toFixed(2)}</span>
+                    <span>Spent: ₹{parseAmount(entry.transactionAmount).toFixed(2)}</span>
                     <span>•</span>
                     <span>{new Date(entry.createdAt).toLocaleDateString()}</span>
                   </div>
@@ -130,14 +137,13 @@ export default function RoundUpsPage() {
                 <div className="flex items-center gap-4">
                   <div className="text-right space-y-1">
                     <div className="font-mono font-extrabold text-brand-400 text-lg">
-                      +₹{parseFloat(entry.roundUpAmount).toFixed(2)}
+                      +₹{parseAmount(entry.roundUpAmount).toFixed(2)}
                     </div>
                     <span
-                      className={`inline-flex items-center gap-1 text-[9px] font-bold px-2 py-0.5 rounded ${
-                        entry.status === "invested"
+                      className={`inline-flex items-center gap-1 text-[9px] font-bold px-2 py-0.5 rounded ${entry.status === "invested"
                           ? "bg-green-500/10 text-green-400"
                           : "bg-amber-500/10 text-amber-400"
-                      }`}
+                        }`}
                     >
                       {entry.status === "invested" ? <FiCheck /> : <FiClock />}
                       {entry.status.toUpperCase()}

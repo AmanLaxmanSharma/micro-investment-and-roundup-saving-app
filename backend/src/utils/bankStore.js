@@ -5,11 +5,41 @@ const memoryBankAccounts = [];
 
 export const listBankAccountsForUser = async (userId) => {
   if (isMongoAvailable()) {
-    return BankAccount.find({ userId });
+    let accounts = await BankAccount.find({ userId });
+    if (accounts.length === 0) {
+      const defaultAcc = await BankAccount.create({
+        userId,
+        accountName: "Primary Savings Account",
+        bankName: "HDFC Bank",
+        accountNumber: "987654324821",
+        accountType: "checking",
+        isPrimary: true,
+        status: "verified",
+      });
+      accounts = [defaultAcc];
+    }
+    return accounts;
   }
-  return memoryBankAccounts.filter(
+  let userAccounts = memoryBankAccounts.filter(
     (acc) => acc.userId.toString() === userId.toString(),
   );
+  if (userAccounts.length === 0) {
+    const defaultAcc = {
+      _id: `bank_${Date.now()}`,
+      userId,
+      accountName: "Primary Savings Account",
+      bankName: "HDFC Bank",
+      accountNumber: "987654324821",
+      accountType: "checking",
+      isPrimary: true,
+      status: "verified",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    memoryBankAccounts.push(defaultAcc);
+    userAccounts = [defaultAcc];
+  }
+  return userAccounts;
 };
 
 export const createBankAccountForUser = async (userId, data) => {

@@ -12,6 +12,7 @@ const walletSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.Decimal128,
       required: true,
       default: 0.0,
+      get: (v) => (v ? parseFloat(v.toString()) : 0.0),
     },
     currency: {
       type: String,
@@ -19,7 +20,11 @@ const walletSchema = new mongoose.Schema(
       default: "INR",
     },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    toJSON: { getters: true },
+    toObject: { getters: true },
+  },
 );
 
 walletSchema.index({ userId: 1 });

@@ -59,12 +59,23 @@ export default function App() {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
               <Link to="/" className="flex items-center gap-2.5">
-                <div className="p-2 bg-brand-500/10 border border-brand-500/20 rounded-xl text-brand-400">
+                <div className={`p-2 rounded-xl ${
+                  user?.role === "advisor"
+                    ? "bg-emerald-500/10 border border-emerald-500/30 text-emerald-400"
+                    : "bg-brand-500/10 border border-brand-500/20 text-brand-400"
+                }`}>
                   <FiTrendingUp className="w-5 h-5" />
                 </div>
-                <span className="text-xl font-bold tracking-tight text-white">
-                  Sikka
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-xl font-bold tracking-tight text-white">
+                    Sikka
+                  </span>
+                  {user?.role === "advisor" && (
+                    <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 tracking-wider">
+                      Advisor Portal
+                    </span>
+                  )}
+                </div>
               </Link>
             </div>
 
@@ -81,6 +92,40 @@ export default function App() {
                   >
                     Register
                   </Link>
+                </>
+              ) : user?.role === "advisor" ? (
+                <>
+                  <Link to="/dashboard" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
+                    Advisor Terminal
+                  </Link>
+                  <Link to="/advisory" className="text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-colors font-semibold flex items-center gap-1">
+                    Client Consultations
+                  </Link>
+                  <Link to="/investments" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
+                    Investment Funds
+                  </Link>
+                  <Link to="/risk-profile" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
+                    Risk Benchmarks
+                  </Link>
+                  <Link to="/ai" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
+                    AI Copilot
+                  </Link>
+                  <Link to="/kyc" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
+                    Compliance / KYC
+                  </Link>
+
+                  <div className="flex items-center gap-4 pl-4 border-l border-slate-800">
+                    <span className="text-xs font-bold px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-md uppercase tracking-wider">
+                      ADVISOR
+                    </span>
+                    <button
+                      onClick={handleLogout}
+                      className="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-all"
+                      title="Logout"
+                    >
+                      <FiLogOut className="w-4 h-4" />
+                    </button>
+                  </div>
                 </>
               ) : (
                 <>
@@ -157,6 +202,38 @@ export default function App() {
                 <Link to="/register" className="block px-3 py-2 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-900 rounded-lg">
                   Register
                 </Link>
+              </>
+            ) : user?.role === "advisor" ? (
+              <>
+                <Link to="/dashboard" className="block px-3 py-2 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-900 rounded-lg">
+                  Advisor Terminal
+                </Link>
+                <Link to="/advisory" className="block px-3 py-2 text-base font-medium text-emerald-400 hover:bg-slate-900 rounded-lg">
+                  Client Consultations
+                </Link>
+                <Link to="/investments" className="block px-3 py-2 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-900 rounded-lg">
+                  Investment Funds
+                </Link>
+                <Link to="/risk-profile" className="block px-3 py-2 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-900 rounded-lg">
+                  Risk Benchmarks
+                </Link>
+                <Link to="/ai" className="block px-3 py-2 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-900 rounded-lg">
+                  AI Copilot
+                </Link>
+                <Link to="/kyc" className="block px-3 py-2 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-900 rounded-lg">
+                  Compliance / KYC
+                </Link>
+                <div className="pt-4 border-t border-slate-900 flex justify-between items-center px-3">
+                  <span className="text-xs font-bold px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded">
+                    ADVISOR
+                  </span>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-1 text-sm font-semibold text-rose-400 hover:text-rose-300"
+                  >
+                    <FiLogOut /> Logout
+                  </button>
+                </div>
               </>
             ) : (
               <>

@@ -20,6 +20,7 @@ const walletTransactionSchema = new mongoose.Schema(
     amount: {
       type: mongoose.Schema.Types.Decimal128,
       required: true,
+      get: (v) => (v ? parseFloat(v.toString()) : 0.0),
     },
     paymentGatewayTransactionId: {
       type: String,
@@ -32,7 +33,11 @@ const walletTransactionSchema = new mongoose.Schema(
       default: "pending",
     },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    toJSON: { getters: true },
+    toObject: { getters: true },
+  },
 );
 
 walletTransactionSchema.index({ walletId: 1, createdAt: -1 });

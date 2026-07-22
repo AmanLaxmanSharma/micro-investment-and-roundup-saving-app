@@ -43,7 +43,8 @@ export const updateWalletBalance = async (userId, changeAmount) => {
 
   if (isMongoAvailable()) {
     const wallet = await getOrCreateWalletForUser(userId);
-    let currentBalance = parseFloat(wallet.balance ? wallet.balance.toString() : "0");
+    const rawVal = wallet.balance?.$numberDecimal || (typeof wallet.balance === "number" ? wallet.balance : wallet.balance?.toString());
+    let currentBalance = parseFloat(rawVal || 0);
     if (isNaN(currentBalance)) currentBalance = 0.0;
 
     const newBalance = parseFloat((currentBalance + amount).toFixed(2));
@@ -58,7 +59,8 @@ export const updateWalletBalance = async (userId, changeAmount) => {
 
   const key = userId.toString();
   const wallet = await getOrCreateWalletForUser(userId);
-  let currentBalance = parseFloat(wallet.balance ? wallet.balance.toString() : "0");
+  const rawVal = wallet.balance?.$numberDecimal || (typeof wallet.balance === "number" ? wallet.balance : wallet.balance?.toString());
+  let currentBalance = parseFloat(rawVal || 0);
   if (isNaN(currentBalance)) currentBalance = 0.0;
 
   wallet.balance = parseFloat((currentBalance + amount).toFixed(2));

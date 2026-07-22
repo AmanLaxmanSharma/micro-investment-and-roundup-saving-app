@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import api from "../services/api";
 import { FiHome, FiLock, FiPlusCircle, FiTrash2, FiAlertCircle, FiCheck } from "react-icons/fi";
 
 export default function BankAccountsPage() {
+  const { user } = useSelector((state) => state.auth);
+  const isAdvisor = user?.role === "advisor";
   const [accounts, setAccounts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -45,7 +48,7 @@ export default function BankAccountsPage() {
     setSubmitting(true);
     try {
       await api.post("/api/banks", data);
-      toast.success("Bank account linked successfully!");
+      toast.success(isAdvisor ? "Advisor payout account linked!" : "Bank account linked successfully!");
       reset();
       fetchAccounts();
     } catch (err) {
@@ -72,11 +75,13 @@ export default function BankAccountsPage() {
     <div className="max-w-6xl mx-auto px-4 py-10 space-y-10">
       <div className="space-y-2">
         <h2 className="text-3xl font-extrabold tracking-tight text-white flex items-center gap-3">
-          <FiHome className="text-brand-500" />
-          Virtual Bank Linking
+          <FiHome className={isAdvisor ? "text-emerald-400" : "text-brand-500"} />
+          {isAdvisor ? "Advisor Fee Settlement Accounts" : "Virtual Bank Linking"}
         </h2>
         <p className="text-slate-400">
-          Securely link checkings or savings accounts to enable automated spare change round-ups.
+          {isAdvisor
+            ? "Link your verified bank accounts to receive client consultation retainers and advisory fees."
+            : "Securely link checkings or savings accounts to enable automated spare change round-ups."}
         </p>
       </div>
 
@@ -84,8 +89,8 @@ export default function BankAccountsPage() {
         {/* Linking Form */}
         <div className="lg:col-span-1 p-6 rounded-2xl border border-slate-900 bg-slate-950/40 space-y-6">
           <h3 className="text-lg font-bold text-white flex items-center gap-2">
-            <FiPlusCircle className="text-brand-500" />
-            Link New Account
+            <FiPlusCircle className={isAdvisor ? "text-emerald-400" : "text-brand-500"} />
+            {isAdvisor ? "Add Advisor Payout Account" : "Link New Account"}
           </h3>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -97,9 +102,8 @@ export default function BankAccountsPage() {
                 type="text"
                 {...register("bankName", { required: "Bank name is required" })}
                 placeholder="e.g. JPMorgan Chase"
-                className={`block w-full px-3 py-2 bg-slate-900 border ${
-                  errors.bankName ? "border-rose-500" : "border-slate-800"
-                } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-transparent transition-all`}
+                className={`block w-full px-3 py-2 bg-slate-900 border ${errors.bankName ? "border-rose-500" : "border-slate-800"
+                  } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-transparent transition-all`}
               />
               {errors.bankName && (
                 <p className="mt-1 text-xs text-rose-500">{errors.bankName.message}</p>
@@ -113,10 +117,9 @@ export default function BankAccountsPage() {
               <input
                 type="text"
                 {...register("accountHolderName", { required: "Holder name is required" })}
-                placeholder="John Doe"
-                className={`block w-full px-3 py-2 bg-slate-900 border ${
-                  errors.accountHolderName ? "border-rose-500" : "border-slate-800"
-                } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-transparent transition-all`}
+                placeholder="Aman Sharma"
+                className={`block w-full px-3 py-2 bg-slate-900 border ${errors.accountHolderName ? "border-rose-500" : "border-slate-800"
+                  } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-transparent transition-all`}
               />
               {errors.accountHolderName && (
                 <p className="mt-1 text-xs text-rose-500">{errors.accountHolderName.message}</p>
@@ -134,9 +137,8 @@ export default function BankAccountsPage() {
                   pattern: { value: /^\d+$/, message: "Must be numbers only" },
                 })}
                 placeholder="1000182748"
-                className={`block w-full px-3 py-2 bg-slate-900 border ${
-                  errors.accountNumber ? "border-rose-500" : "border-slate-800"
-                } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-transparent transition-all`}
+                className={`block w-full px-3 py-2 bg-slate-900 border ${errors.accountNumber ? "border-rose-500" : "border-slate-800"
+                  } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-transparent transition-all`}
               />
               {errors.accountNumber && (
                 <p className="mt-1 text-xs text-rose-500">{errors.accountNumber.message}</p>
@@ -151,9 +153,8 @@ export default function BankAccountsPage() {
                 type="text"
                 {...register("ifscCode", { required: "Routing code is required" })}
                 placeholder="IFSC0001"
-                className={`block w-full px-3 py-2 bg-slate-900 border ${
-                  errors.ifscCode ? "border-rose-500" : "border-slate-800"
-                } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-transparent transition-all`}
+                className={`block w-full px-3 py-2 bg-slate-900 border ${errors.ifscCode ? "border-rose-500" : "border-slate-800"
+                  } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-transparent transition-all`}
               />
               {errors.ifscCode && (
                 <p className="mt-1 text-xs text-rose-500">{errors.ifscCode.message}</p>

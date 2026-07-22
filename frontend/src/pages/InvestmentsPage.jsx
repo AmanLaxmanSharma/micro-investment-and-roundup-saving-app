@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { toast } from "react-toastify";
 import api from "../services/api";
+import { parseAmount } from "../utils/parseAmount";
 import {
   FiTrendingUp,
   FiActivity,
@@ -67,7 +68,7 @@ export default function InvestmentsPage() {
 
   const onSubmit = async (data) => {
     const investAmount = parseFloat(data.amount);
-    const balance = parseFloat(wallet?.balance?.toString() || "0");
+    const balance = parseAmount(wallet?.balance);
 
     if (investAmount > balance) {
       toast.error("Insufficient wallet balance. Please fund your wallet first.");
@@ -122,7 +123,7 @@ export default function InvestmentsPage() {
               Available Cash (Sikka Wallet)
             </span>
             <h4 className="text-2xl font-bold text-white font-mono mt-0.5">
-              ₹{parseFloat(wallet?.balance?.toString() || "0.00").toFixed(2)}
+              ₹{parseAmount(wallet?.balance).toFixed(2)}
             </h4>
           </div>
         </div>
@@ -264,7 +265,7 @@ export default function InvestmentsPage() {
 
                   <div className="text-right space-y-1">
                     <div className="font-mono font-extrabold text-brand-400 text-base">
-                      ₹{parseFloat(inv.amount).toFixed(2)}
+                      ₹{parseAmount(inv.amount).toFixed(2)}
                     </div>
                     <span className="text-[9px] font-bold text-green-400 bg-green-500/10 px-2 py-0.5 rounded border border-green-500/20 inline-block uppercase">
                       {inv.status}

@@ -24,6 +24,7 @@ const paymentSchema = new mongoose.Schema(
     amount: {
       type: mongoose.Schema.Types.Decimal128,
       required: true,
+      get: (v) => (v ? parseFloat(v.toString()) : 0.0),
     },
     currency: {
       type: String,
@@ -37,7 +38,11 @@ const paymentSchema = new mongoose.Schema(
       default: "created",
     },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    toJSON: { getters: true },
+    toObject: { getters: true },
+  },
 );
 
 paymentSchema.index({ gatewayOrderId: 1 });

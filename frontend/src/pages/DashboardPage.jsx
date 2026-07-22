@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../services/api";
+import { parseAmount } from "../utils/parseAmount";
 import {
   FiTrendingUp,
   FiCreditCard,
@@ -91,7 +92,8 @@ export default function DashboardPage() {
     fetchProfile();
     fetchPendingKyc();
     fetchInvestorStats();
-  }, [user]);
+    fetchAdvisorStats();
+  }, [user?.role]);
 
   const handleKycReview = async (id, status) => {
     try {
@@ -210,7 +212,7 @@ export default function DashboardPage() {
                 </div>
                 <div className="space-y-1">
                   <h3 className="text-3xl font-extrabold text-white font-mono">
-                    ₹{parseFloat(wallet?.balance || 0).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    ₹{parseAmount(wallet?.balance).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </h3>
                   <p className="text-xs text-slate-500">Available to withdraw/invest</p>
                 </div>
@@ -300,8 +302,8 @@ export default function DashboardPage() {
                 ) : (
                   <div className="space-y-4">
                     {goals.slice(0, 3).map((goal) => {
-                      const current = parseFloat(goal.currentAmount?.$numberDecimal || goal.currentAmount || 0);
-                      const target = parseFloat(goal.targetAmount?.$numberDecimal || goal.targetAmount || 1);
+                      const current = parseAmount(goal.currentAmount);
+                      const target = parseAmount(goal.targetAmount) || 1;
                       const rawPct = (current / target) * 100;
                       const percent = Math.min(100, Math.max(0, isNaN(rawPct) ? 0 : rawPct)).toFixed(0);
 
@@ -386,10 +388,10 @@ export default function DashboardPage() {
                               {ru.description || "General Purchase"}
                             </td>
                             <td className="px-5 py-4 whitespace-nowrap text-sm text-slate-400 text-center font-mono">
-                              ₹{parseFloat(ru.amount || 0).toFixed(2)}
+                              ₹{parseAmount(ru.amount).toFixed(2)}
                             </td>
                             <td className="px-5 py-4 whitespace-nowrap text-sm font-bold text-brand-400 text-right font-mono">
-                              +₹{parseFloat(ru.roundUpAmount || 0).toFixed(2)}
+                              +₹{parseAmount(ru.roundUpAmount).toFixed(2)}
                             </td>
                             <td className="px-5 py-4 whitespace-nowrap text-center">
                               <span className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase ${
@@ -500,7 +502,7 @@ export default function DashboardPage() {
                         </div>
                         <div className="text-right">
                           <span className="text-sm font-bold text-emerald-400 font-mono">
-                            ₹{parseFloat(inv.amount || 0).toLocaleString("en-IN", { minimumFractionDigits: 2 })}
+                            ₹{parseAmount(inv.amount).toLocaleString("en-IN", { minimumFractionDigits: 2 })}
                           </span>
                           <span className="text-[10px] text-slate-500 block uppercase font-mono tracking-wider">{inv.allocation}</span>
                         </div>
@@ -519,50 +521,151 @@ export default function DashboardPage() {
 
       {/* -------------------- ADVISOR DASHBOARD -------------------- */}
       {user?.role === "advisor" && (
-        <div className="space-y-8">
-          <div className="grid sm:grid-cols-3 gap-6">
-            <div className="group p-6 rounded-3xl border border-slate-900 bg-slate-950/50 space-y-4 hover:border-brand-500/20 transition-all duration-300">
-              <div className="flex justify-between items-center text-slate-500">
-                <span className="text-xs font-semibold uppercase tracking-widest">
-                  Assigned Clients
+        <div className="space-y-10">
+          {/* Advisor Hero Banner */}
+          <div className="relative overflow-hidden rounded-3xl border border-emerald-500/20 bg-gradient-to-br from-emerald-950/30 via-slate-950 to-slate-950 p-8 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
+            <div className="space-y-3 relative z-10">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest px-3 py-1 bg-emerald-500/10 rounded-full border border-emerald-500/20">
+                  Certified Advisory Terminal
                 </span>
-                <div className="p-2 rounded-xl bg-brand-500/10 text-brand-400 border border-brand-500/10 group-hover:scale-110 transition-transform">
-                  <FiUsers className="w-4.5 h-4.5" />
-                </div>
+                <span className="flex h-2 w-2 relative">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                </span>
               </div>
-              <h3 className="text-3xl font-extrabold text-white font-mono">0</h3>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                Welcome back, Advisor {user?.name || ""}
+              </h2>
+              <p className="text-sm text-slate-400 max-w-xl leading-relaxed">
+                Monitor assigned investor accounts, review risk profiles, and issue personalized micro-investment recommendations.
+              </p>
             </div>
-
-            <div className="group p-6 rounded-3xl border border-slate-900 bg-slate-950/50 space-y-4 hover:border-indigo-500/20 transition-all duration-300">
-              <div className="flex justify-between items-center text-slate-500">
-                <span className="text-xs font-semibold uppercase tracking-widest">
-                  Active Chats
-                </span>
-                <div className="p-2 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/10 group-hover:scale-110 transition-transform">
-                  <FiMessageSquare className="w-4.5 h-4.5" />
-                </div>
-              </div>
-              <h3 className="text-3xl font-extrabold text-white font-mono">0</h3>
-            </div>
-
-            <div className="group p-6 rounded-3xl border border-slate-900 bg-slate-950/50 space-y-4 hover:border-amber-500/20 transition-all duration-300">
-              <div className="flex justify-between items-center text-slate-500">
-                <span className="text-xs font-semibold uppercase tracking-widest">
-                  Reviews Scheduled
-                </span>
-                <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/10 group-hover:scale-110 transition-transform">
-                  <FiBriefcase className="w-4.5 h-4.5" />
-                </div>
-              </div>
-              <h3 className="text-3xl font-extrabold text-white font-mono">0</h3>
+            <div className="flex flex-wrap gap-3 relative z-10">
+              <Link
+                to="/advisory"
+                className="px-5 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold shadow-lg shadow-emerald-600/20 flex items-center gap-2 transition-all hover:scale-105"
+              >
+                <FiMessageSquare className="w-4 h-4" /> Open Advisory Room
+              </Link>
+              <Link
+                to="/investments"
+                className="px-5 py-3 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-200 rounded-xl text-xs font-bold transition-all"
+              >
+                Explore Portfolios
+              </Link>
             </div>
           </div>
 
-          <div className="p-8 rounded-3xl border border-slate-900 bg-slate-950/20 space-y-4">
-            <h3 className="text-xl font-bold text-white">Client Advisory Inbox</h3>
-            <p className="text-sm text-slate-450 leading-relaxed">
-              Investors seek guidance on asset classes, allocations, and goal planning. You will receive active client query notifications here once messaging components launch.
-            </p>
+          {/* Stats Grid */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="p-6 rounded-3xl border border-slate-900 bg-slate-950/40 space-y-3 hover:border-emerald-500/30 transition-all shadow-lg">
+              <div className="flex justify-between items-center text-slate-400">
+                <span className="text-xs font-semibold uppercase tracking-widest">Active Investor Clients</span>
+                <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <FiUsers className="w-4 h-4" />
+                </div>
+              </div>
+              <h3 className="text-3xl font-extrabold text-white font-mono">{advisorContacts.length}</h3>
+              <p className="text-xs text-slate-500">Registered investor accounts</p>
+            </div>
+
+            <div className="p-6 rounded-3xl border border-slate-900 bg-slate-950/40 space-y-3 hover:border-indigo-500/30 transition-all shadow-lg">
+              <div className="flex justify-between items-center text-slate-400">
+                <span className="text-xs font-semibold uppercase tracking-widest">Consultation Threads</span>
+                <div className="p-2 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                  <FiMessageSquare className="w-4 h-4" />
+                </div>
+              </div>
+              <h3 className="text-3xl font-extrabold text-white font-mono">{advisorContacts.length}</h3>
+              <p className="text-xs text-slate-500">Active advisory channels</p>
+            </div>
+
+            <div className="p-6 rounded-3xl border border-slate-900 bg-slate-950/40 space-y-3 hover:border-amber-500/30 transition-all shadow-lg">
+              <div className="flex justify-between items-center text-slate-400">
+                <span className="text-xs font-semibold uppercase tracking-widest">Asset Allocation Models</span>
+                <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                  <FiTrendingUp className="w-4 h-4" />
+                </div>
+              </div>
+              <h3 className="text-3xl font-extrabold text-white font-mono">3 Active</h3>
+              <p className="text-xs text-slate-500">Conservative, Moderate, Aggressive</p>
+            </div>
+
+            <div className="p-6 rounded-3xl border border-slate-900 bg-slate-950/40 space-y-3 hover:border-purple-500/30 transition-all shadow-lg">
+              <div className="flex justify-between items-center text-slate-400">
+                <span className="text-xs font-semibold uppercase tracking-widest">Compliance Status</span>
+                <div className="p-2 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                  <FiShield className="w-4 h-4" />
+                </div>
+              </div>
+              <h3 className="text-3xl font-extrabold text-emerald-400 font-mono">VERIFIED</h3>
+              <p className="text-xs text-slate-500">Certified Sikka Advisory License</p>
+            </div>
+          </div>
+
+          {/* Investor Clients Directory & Consultation Actions */}
+          <div className="p-8 rounded-3xl border border-slate-900 bg-slate-950/40 space-y-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <div>
+                <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                  <FiUsers className="text-emerald-400" />
+                  Assigned Investor Directory
+                </h3>
+                <p className="text-xs text-slate-400">Select an investor client to open direct advisory communications</p>
+              </div>
+              <Link
+                to="/advisory"
+                className="px-4 py-2 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-emerald-400 text-xs font-bold rounded-xl transition-all inline-flex items-center gap-1.5"
+              >
+                Go to Advisory Room &rarr;
+              </Link>
+            </div>
+
+            {loadingAdvisorData ? (
+              <div className="flex items-center gap-2 text-slate-400 text-sm py-6">
+                <div className="w-4 h-4 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+                <span>Loading investor directory...</span>
+              </div>
+            ) : advisorContacts.length === 0 ? (
+              <div className="p-8 text-center space-y-3 border border-dashed border-slate-900 rounded-2xl">
+                <FiUsers className="w-8 h-8 text-slate-600 mx-auto" />
+                <p className="text-slate-400 text-sm">No registered investor clients found yet.</p>
+                <p className="text-xs text-slate-600">
+                  When new investors register, they will appear here for advisory guidance.
+                </p>
+              </div>
+            ) : (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {advisorContacts.map((client) => (
+                  <div
+                    key={client._id || client.id}
+                    className="p-5 rounded-2xl border border-slate-900 bg-slate-950/80 hover:border-emerald-500/30 transition-all flex flex-col justify-between gap-4"
+                  >
+                    <div className="flex justify-between items-start">
+                      <div className="space-y-1">
+                        <h4 className="font-bold text-white text-base">{client.name}</h4>
+                        <p className="text-xs text-slate-500 font-mono">{client.email}</p>
+                      </div>
+                      <span className="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 uppercase">
+                        INVESTOR
+                      </span>
+                    </div>
+
+                    <div className="border-t border-slate-900/60 pt-3 flex justify-between items-center">
+                      <span className="text-[11px] text-slate-400">Advisory Channel</span>
+                      <Link
+                        to="/advisory"
+                        className="px-3 py-1.5 bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white rounded-lg text-xs font-semibold transition-all inline-flex items-center gap-1"
+                      >
+                        <FiMessageSquare /> Consult Client
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}

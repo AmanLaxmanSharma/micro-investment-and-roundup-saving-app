@@ -84,28 +84,48 @@ export default function AdvisoryPage() {
     }
   };
 
+  const isAdvisor = user?.role === "advisor";
+
+  const presetAdviceList = [
+    "💡 Advisory Note: Recommend allocating 60% into Nifty 50 Index and 40% into Gold ETFs for balanced growth.",
+    "🛡️ Advisory Note: Based on your Conservative risk profile, consider increasing debt fund allocation.",
+    "🎯 Advisory Note: Great progress on your goal! Advise setting up an automated 2x Round-Up multiplier.",
+    "⚡ Advisory Note: Consider setting aside ₹2,000 in your Sikka Wallet as an emergency liquidity reserve.",
+  ];
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 h-[calc(100vh-140px)] flex flex-col gap-6">
       {/* Header */}
-      <div className="space-y-1 border-b border-slate-900 pb-4">
-        <h2 className="text-3xl font-extrabold tracking-tight text-white flex items-center gap-3">
-          <FiMessageSquare className="text-brand-500" />
-          Peer Advisory Room
-        </h2>
-        <p className="text-slate-400">
-          {user?.role === "investor"
-            ? "Connect with certified Sikka financial advisors for custom planning."
-            : "Review client profiles and send custom compliance suggestions."}
-        </p>
+      <div className="space-y-1 border-b border-slate-900 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-3xl font-extrabold tracking-tight text-white flex items-center gap-3">
+            <FiMessageSquare className={isAdvisor ? "text-emerald-400" : "text-brand-500"} />
+            {isAdvisor ? "Client Advisory Consult Terminal" : "Peer Advisory Room"}
+          </h2>
+          <p className="text-slate-400 text-sm">
+            {isAdvisor
+              ? "Review assigned investor profiles and issue SEBI-compliant wealth advice."
+              : "Connect with certified Sikka financial advisors for custom planning."}
+          </p>
+        </div>
+        {isAdvisor && (
+          <span className="self-start md:self-auto text-xs font-bold uppercase tracking-wider px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            Certified Advisor Mode
+          </span>
+        )}
       </div>
 
       {/* Main Container */}
       <div className="flex-grow flex border border-slate-900 rounded-3xl bg-slate-950/20 overflow-hidden min-h-[450px]">
         {/* Sidebar Contacts List */}
         <div className="w-80 border-r border-slate-900 bg-slate-950/60 flex flex-col">
-          <div className="p-4 border-b border-slate-900 bg-slate-950/80">
+          <div className="p-4 border-b border-slate-900 bg-slate-950/80 flex justify-between items-center">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-              {user?.role === "investor" ? "Certified Advisors" : "Active Clients"}
+              {isAdvisor ? "Assigned Investor Clients" : "Certified Advisors"}
+            </span>
+            <span className="text-[10px] font-mono text-slate-600 bg-slate-900 px-2 py-0.5 rounded">
+              {contacts.length}
             </span>
           </div>
 
@@ -128,16 +148,24 @@ export default function AdvisoryPage() {
                     onClick={() => setActiveContact(contact)}
                     className={`w-full p-4 text-left flex items-center gap-3 transition-all ${
                       isSelected
-                        ? "bg-brand-500/10 border-l-4 border-l-brand-500"
+                        ? isAdvisor
+                          ? "bg-emerald-500/10 border-l-4 border-l-emerald-500"
+                          : "bg-brand-500/10 border-l-4 border-l-brand-500"
                         : "hover:bg-slate-900/40"
                     }`}
                   >
-                    <div className="p-2 bg-slate-900 border border-slate-800 text-slate-400 rounded-xl text-sm shrink-0">
+                    <div className={`p-2 border rounded-xl text-sm shrink-0 ${
+                      isAdvisor ? "bg-emerald-950/40 border-emerald-500/20 text-emerald-400" : "bg-slate-900 border-slate-800 text-slate-400"
+                    }`}>
                       <FiUser />
                     </div>
-                    <div className="space-y-0.5">
-                      <h4 className="font-bold text-slate-200 text-sm">{contact.name}</h4>
-                      <span className="text-[10px] font-bold text-brand-400 bg-brand-500/10 px-2 py-0.5 rounded border border-brand-500/20 uppercase">
+                    <div className="space-y-0.5 overflow-hidden">
+                      <h4 className="font-bold text-slate-200 text-sm truncate">{contact.name}</h4>
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded border uppercase ${
+                        contact.role === "investor"
+                          ? "text-emerald-400 bg-emerald-500/10 border-emerald-500/20"
+                          : "text-brand-400 bg-brand-500/10 border-brand-500/20"
+                      }`}>
                         {contact.role}
                       </span>
                     </div>
@@ -155,14 +183,26 @@ export default function AdvisoryPage() {
               {/* Active Header */}
               <div className="p-4 border-b border-slate-900 bg-slate-950/80 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-slate-900 border border-slate-800 text-brand-400 rounded-xl text-xs">
+                  <div className={`p-2 border rounded-xl text-xs ${
+                    isAdvisor ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" : "bg-slate-900 border-slate-800 text-brand-400"
+                  }`}>
                     <FiUser />
                   </div>
                   <div>
-                    <h4 className="font-bold text-white text-sm">{activeContact.name}</h4>
-                    <p className="text-[10px] text-slate-500">{activeContact.email}</p>
+                    <h4 className="font-bold text-white text-sm flex items-center gap-2">
+                      {activeContact.name}
+                      <span className="text-[10px] font-bold text-slate-400 bg-slate-900 px-2 py-0.5 rounded uppercase">
+                        {activeContact.role}
+                      </span>
+                    </h4>
+                    <p className="text-[10px] text-slate-500 font-mono">{activeContact.email}</p>
                   </div>
                 </div>
+                {isAdvisor && (
+                  <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-500/20">
+                    Active Advisory Channel
+                  </span>
+                )}
               </div>
 
               {/* Messages feed */}
@@ -174,7 +214,7 @@ export default function AdvisoryPage() {
                 ) : messages.length === 0 ? (
                   <div className="text-center text-xs text-slate-600 py-10 space-y-1">
                     <p>No messages in this chat room yet.</p>
-                    <p>Type a note below to start the conversation.</p>
+                    <p>{isAdvisor ? "Type a financial recommendation below for your client." : "Type a note below to start the conversation."}</p>
                   </div>
                 ) : (
                   messages.map((msg, idx) => {
@@ -190,7 +230,9 @@ export default function AdvisoryPage() {
                           <div
                             className={`p-3.5 rounded-2xl text-xs leading-relaxed ${
                               isOutgoing
-                                ? "bg-brand-650 text-white"
+                                ? isAdvisor
+                                  ? "bg-emerald-600 text-white shadow-lg shadow-emerald-600/10"
+                                  : "bg-brand-650 text-white"
                                 : "bg-slate-900 border border-slate-850 text-slate-200"
                             }`}
                           >
@@ -210,6 +252,24 @@ export default function AdvisoryPage() {
                 <div ref={scrollRef} />
               </div>
 
+              {/* One-Tap Advisory Recommendation Presets for Advisors */}
+              {isAdvisor && (
+                <div className="px-4 py-2 bg-slate-950/80 border-t border-slate-900/60 flex items-center gap-2 overflow-x-auto scrollbar-none">
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider shrink-0">
+                    Quick Advice:
+                  </span>
+                  {presetAdviceList.map((preset, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setInput(preset)}
+                      className="px-2.5 py-1 bg-slate-900 hover:bg-emerald-950/60 border border-slate-800 hover:border-emerald-500/40 text-slate-300 hover:text-emerald-300 rounded-lg text-[10px] whitespace-nowrap transition-all shrink-0"
+                    >
+                      {preset.split(":")[0]}
+                    </button>
+                  ))}
+                </div>
+              )}
+
               {/* Chat Input */}
               <div className="p-4 border-t border-slate-900 bg-slate-950/40 flex gap-3">
                 <input
@@ -217,13 +277,17 @@ export default function AdvisoryPage() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyPress}
-                  placeholder="Type message..."
-                  className="flex-grow px-4 py-2.5 bg-slate-900 border border-slate-800 placeholder-slate-650 text-slate-200 text-xs rounded-xl focus:outline-none focus:ring-1 focus:ring-brand-500"
+                  placeholder={isAdvisor ? "Write financial advice or recommendation..." : "Type message..."}
+                  className={`flex-grow px-4 py-2.5 bg-slate-900 border border-slate-800 placeholder-slate-650 text-slate-200 text-xs rounded-xl focus:outline-none focus:ring-1 ${
+                    isAdvisor ? "focus:ring-emerald-500" : "focus:ring-brand-500"
+                  }`}
                 />
                 <button
                   onClick={handleSend}
                   disabled={sending || !input.trim()}
-                  className="px-4 py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all disabled:opacity-50"
+                  className={`px-4 py-2.5 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all disabled:opacity-50 ${
+                    isAdvisor ? "bg-emerald-600 hover:bg-emerald-500 shadow-md shadow-emerald-600/20" : "bg-brand-600 hover:bg-brand-500"
+                  }`}
                 >
                   <span>Send</span>
                   <FiSend />
@@ -233,9 +297,13 @@ export default function AdvisoryPage() {
           ) : (
             <div className="flex-grow flex items-center justify-center flex-col text-slate-500 p-8 space-y-2">
               <FiMessageSquare className="w-10 h-10 text-slate-700" />
-              <h4 className="font-bold text-slate-400">No Chat Selected</h4>
+              <h4 className="font-bold text-slate-400">
+                {isAdvisor ? "Select an Investor Client" : "No Chat Selected"}
+              </h4>
               <p className="text-xs text-slate-600 max-w-xs text-center leading-relaxed">
-                Please select a contact from the left sidebar panel to begin advisory communication.
+                {isAdvisor
+                  ? "Select an assigned investor client from the left directory to inspect chat history and issue wealth advice."
+                  : "Please select a certified advisor from the left sidebar panel to begin communication."}
               </p>
             </div>
           )}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import api from "../services/api";
 import {
@@ -12,7 +13,19 @@ import {
   FiCheckCircle,
 } from "react-icons/fi";
 
+const parseAmount = (val) => {
+  if (val === null || val === undefined) return 0;
+  if (typeof val === "number") return val;
+  if (typeof val === "object" && val.$numberDecimal !== undefined) {
+    return parseFloat(val.$numberDecimal) || 0;
+  }
+  const parsed = parseFloat(val);
+  return isNaN(parsed) ? 0 : parsed;
+};
+
 export default function WalletPage() {
+  const { user } = useSelector((state) => state.auth);
+  const isAdvisor = user?.role === "advisor";
   const [wallet, setWallet] = useState(null);
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -123,7 +136,7 @@ export default function WalletPage() {
         gatewayOrderId: pendingPayment.gatewayOrderId,
         gatewayPaymentId: `pay_${Date.now()}`,
       });
-      toast.success(`Allocated ₹${parseFloat(pendingPayment.amount).toFixed(2)} to wallet balance!`);
+      toast.success(`Allocated ₹${parseAmount(pendingPayment.amount).toFixed(2)} to wallet balance!`);
       setPendingPayment(null);
       fetchWalletData();
     } catch (err) {
@@ -133,7 +146,7 @@ export default function WalletPage() {
 
   const handleWithdrawSubmit = async (data) => {
     const amount = parseFloat(data.amount);
-    const balance = parseFloat(wallet?.balance?.toString() || "0");
+    const balance = parseAmount(wallet?.balance);
 
     if (amount > balance) {
       withdrawForm.setError("amount", {
@@ -169,26 +182,25 @@ export default function WalletPage() {
     <div className="max-w-6xl mx-auto px-4 py-10 space-y-10">
       <div className="space-y-2">
         <h2 className="text-3xl font-extrabold tracking-tight text-white flex items-center gap-3">
-          <FiCreditCard className="text-brand-500" />
-          Sikka Wallet & Payments
+          <FiCreditCard className={isAdvisor ? "text-emerald-400" : "text-brand-500"} />
+          {isAdvisor ? "Advisor Fee & Retainer Settlement" : "Sikka Wallet & Payments"}
         </h2>
         <p className="text-slate-400">
-          Deposit cash via payment gateway, track historical ledgers, and manage balance withdrawals.
+          {isAdvisor
+            ? "Track client consultation fee settlements, monthly retainers, and payout ledger."
+            : "Deposit cash via payment gateway, track historical ledgers, and manage balance withdrawals."}
         </p>
       </div>
 
       {/* Main Balance Banner */}
-      <div className="relative overflow-hidden rounded-3xl border border-slate-900 bg-gradient-to-br from-brand-950/20 via-slate-950 to-slate-950 p-8 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-brand-500/10 rounded-full blur-[110px] pointer-events-none" />
+      <div className="relative overflow-hidden rounded-3xl border border-slate-900 bg-gradient-to-br from-emerald-950/20 via-slate-950 to-slate-950 p-8 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-[110px] pointer-events-none" />
         <div className="space-y-3">
-          <span className="text-xs font-semibold text-brand-400 uppercase tracking-wider">
-            Available Funds
+          <span className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">
+            {isAdvisor ? "Earned Advisory Retainers" : "Available Funds"}
           </span>
           <h3 className="text-5xl font-extrabold text-white font-mono">
-            ₹{(() => {
-              const raw = parseFloat(wallet?.balance?.toString() || "0");
-              return (isNaN(raw) ? 0 : raw).toFixed(2);
-            })()}
+            ₹{parseAmount(wallet?.balance).toFixed(2)}
           </h3>
           <p className="text-xs text-slate-500">
             Linked to account: {wallet?.currency || "INR"} Base Ledger
@@ -205,7 +217,7 @@ export default function WalletPage() {
             <div className="text-xs text-slate-400 space-y-1">
               <p>Order: {pendingPayment.gatewayOrderId}</p>
               <p>Gateway: {pendingPayment.gateway.toUpperCase()}</p>
-              <p>Amount: ₹{parseFloat(pendingPayment.amount).toFixed(2)}</p>
+              <p>Amount: ₹{parseAmount(pendingPayment.amount).toFixed(2)}</p>
             </div>
             <div className="flex gap-2">
               <button
@@ -228,12 +240,13 @@ export default function WalletPage() {
       <div className="grid md:grid-cols-2 gap-8 items-start">
         {/* Deposit/Withdraw Actions Card */}
         <div className="space-y-8">
-          {/* Deposit Card */}
-          <div className="p-6 rounded-2xl border border-slate-900 bg-slate-950/40 space-y-6">
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
-              <FiArrowUpCircle className="text-green-400" />
-              Deposit Cash
-            </h3>
+          {/* Deposit Card (Investors Only) */}
+          {!isAdvisor && (
+            <div className="p-6 rounded-2xl border border-slate-900 bg-slate-950/40 space-y-6">
+              <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                <FiArrowUpCircle className="text-green-400" />
+                Deposit Cash
+              </h3>
             <form onSubmit={depositForm.handleSubmit(handleDepositSubmit)} className="space-y-4">
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
@@ -267,6 +280,7 @@ export default function WalletPage() {
               </button>
             </form>
           </div>
+          )}
 
           {/* Withdraw Card */}
           <div className="p-6 rounded-2xl border border-slate-900 bg-slate-950/40 space-y-6">
@@ -348,7 +362,7 @@ export default function WalletPage() {
                         tx.type === "deposit" ? "text-green-400" : "text-rose-400"
                       }`}
                     >
-                      {tx.type === "deposit" ? "+" : "-"}₹{parseFloat(tx.amount).toFixed(2)}
+                      {tx.type === "deposit" ? "+" : "-"}₹{parseAmount(tx.amount).toFixed(2)}
                     </div>
                     <span className="text-[9px] font-bold text-green-400 bg-green-500/10 px-2 py-0.5 rounded border border-green-500/20">
                       {tx.status.toUpperCase()}
