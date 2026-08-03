@@ -3,7 +3,15 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import api from "../services/api";
-import { FiHome, FiLock, FiPlusCircle, FiTrash2, FiAlertCircle, FiCheck } from "react-icons/fi";
+import { FiHome, FiLock, FiPlusCircle, FiTrash2, FiShield, FiCheck, FiCheckCircle } from "react-icons/fi";
+
+const POPULAR_BANKS = [
+  { name: "HDFC Bank", code: "HDFC", logo: "🏦" },
+  { name: "ICICI Bank", code: "ICIC", logo: "🏛️" },
+  { name: "State Bank of India", code: "SBIN", logo: "🔵" },
+  { name: "Axis Bank", code: "UTIB", logo: "🔴" },
+  { name: "Kotak Mahindra", code: "KKBK", logo: "🛡️" },
+];
 
 export default function BankAccountsPage() {
   const { user } = useSelector((state) => state.auth);
@@ -16,14 +24,15 @@ export default function BankAccountsPage() {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
       bankName: "",
-      accountHolderName: "",
+      accountHolderName: user?.name || "",
       accountNumber: "",
       ifscCode: "",
-      accountType: "checking",
+      accountType: "savings",
       isPrimary: false,
     },
   });
@@ -31,7 +40,6 @@ export default function BankAccountsPage() {
   const fetchAccounts = async () => {
     try {
       const response = await api.get("/api/banks");
-      // Extract from standardized payload: data: { accounts }
       setAccounts(response.data.data.accounts || []);
     } catch (err) {
       toast.error("Unable to load linked bank accounts.");
@@ -44,6 +52,11 @@ export default function BankAccountsPage() {
     fetchAccounts();
   }, []);
 
+  const selectPopularBank = (bank) => {
+    setValue("bankName", bank.name);
+    setValue("ifscCode", `${bank.code}0001234`);
+  };
+
   const onSubmit = async (data) => {
     setSubmitting(true);
     try {
@@ -52,7 +65,7 @@ export default function BankAccountsPage() {
       reset();
       fetchAccounts();
     } catch (err) {
-      // Handled by Axios interceptor
+      // Intercepted
     } finally {
       setSubmitting(false);
     }
@@ -67,195 +80,252 @@ export default function BankAccountsPage() {
       toast.success("Bank account unlinked successfully.");
       fetchAccounts();
     } catch (err) {
-      // Handled by Axios interceptor
+      // Intercepted
     }
   };
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10 space-y-10">
-      <div className="space-y-2">
-        <h2 className="text-3xl font-extrabold tracking-tight text-white flex items-center gap-3">
-          <FiHome className={isAdvisor ? "text-emerald-400" : "text-brand-500"} />
-          {isAdvisor ? "Advisor Fee Settlement Accounts" : "Virtual Bank Linking"}
-        </h2>
-        <p className="text-slate-400">
-          {isAdvisor
-            ? "Link your verified bank accounts to receive client consultation retainers and advisory fees."
-            : "Securely link checkings or savings accounts to enable automated spare change round-ups."}
-        </p>
+      {/* Header Banner */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800/80 pb-6">
+        <div>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-2">
+            <FiShield className="w-3.5 h-3.5" /> NPCI & Reserve Bank Compliant
+          </div>
+          <h2 className="text-3xl font-extrabold tracking-tight text-white font-outfit flex items-center gap-3">
+            <FiHome className={isAdvisor ? "text-emerald-400" : "text-brand-400"} />
+            {isAdvisor ? "Advisor Fee Settlement Accounts" : "Linked Bank Accounts"}
+          </h2>
+          <p className="text-sm text-slate-400 mt-1">
+            {isAdvisor
+              ? "Manage linked bank accounts to receive direct consultation retainer deposits."
+              : "Link savings or checking accounts for automated round-up tracking and instant withdrawals."}
+          </p>
+        </div>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-8 items-start">
-        {/* Linking Form */}
-        <div className="lg:col-span-1 p-6 rounded-2xl border border-slate-900 bg-slate-950/40 space-y-6">
-          <h3 className="text-lg font-bold text-white flex items-center gap-2">
-            <FiPlusCircle className={isAdvisor ? "text-emerald-400" : "text-brand-500"} />
-            {isAdvisor ? "Add Advisor Payout Account" : "Link New Account"}
-          </h3>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Left Form: Add Bank */}
+        <div className="lg:col-span-5 p-6 rounded-3xl border border-slate-800/90 bg-slate-900/60 backdrop-blur-xl shadow-xl space-y-5">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-bold text-white flex items-center gap-2 font-outfit">
+              <FiPlusCircle className={isAdvisor ? "text-emerald-400" : "text-brand-400"} />
+              {isAdvisor ? "Add Advisor Payout Account" : "Link New Bank Account"}
+            </h3>
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">INSTANT MANDATE</span>
+          </div>
+
+          {/* Quick Bank Chips */}
+          <div>
+            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
+              Popular Indian Banks:
+            </span>
+            <div className="flex flex-wrap gap-1.5">
+              {POPULAR_BANKS.map((b) => (
+                <button
+                  key={b.code}
+                  type="button"
+                  onClick={() => selectPopularBank(b)}
+                  className="px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-950 border border-slate-800 hover:border-brand-500/50 hover:bg-brand-500/10 text-slate-300 transition-all flex items-center gap-1"
+                >
+                  <span>{b.logo}</span>
+                  <span>{b.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
                 Bank Name
               </label>
               <input
                 type="text"
                 {...register("bankName", { required: "Bank name is required" })}
-                placeholder="e.g. JPMorgan Chase"
-                className={`block w-full px-3 py-2 bg-slate-900 border ${errors.bankName ? "border-rose-500" : "border-slate-800"
-                  } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-transparent transition-all`}
+                placeholder="e.g. HDFC Bank"
+                className={`block w-full px-4 py-2.5 bg-slate-950/80 border ${
+                  errors.bankName ? "border-rose-500" : "border-slate-800"
+                } placeholder-slate-600 text-slate-100 text-sm rounded-xl focus:outline-none focus:border-brand-500 transition-all`}
               />
               {errors.bankName && (
-                <p className="mt-1 text-xs text-rose-500">{errors.bankName.message}</p>
+                <p className="mt-1 text-xs text-rose-400 font-medium">{errors.bankName.message}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
                 Account Holder Name
               </label>
               <input
                 type="text"
                 {...register("accountHolderName", { required: "Holder name is required" })}
-                placeholder="Aman Sharma"
-                className={`block w-full px-3 py-2 bg-slate-900 border ${errors.accountHolderName ? "border-rose-500" : "border-slate-800"
-                  } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-transparent transition-all`}
+                placeholder="As per bank passbook"
+                className={`block w-full px-4 py-2.5 bg-slate-950/80 border ${
+                  errors.accountHolderName ? "border-rose-500" : "border-slate-800"
+                } placeholder-slate-600 text-slate-100 text-sm rounded-xl focus:outline-none focus:border-brand-500 transition-all`}
               />
               {errors.accountHolderName && (
-                <p className="mt-1 text-xs text-rose-500">{errors.accountHolderName.message}</p>
+                <p className="mt-1 text-xs text-rose-400 font-medium">{errors.accountHolderName.message}</p>
               )}
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
-                Account Number
-              </label>
-              <input
-                type="text"
-                {...register("accountNumber", {
-                  required: "Account number is required",
-                  pattern: { value: /^\d+$/, message: "Must be numbers only" },
-                })}
-                placeholder="1000182748"
-                className={`block w-full px-3 py-2 bg-slate-900 border ${errors.accountNumber ? "border-rose-500" : "border-slate-800"
-                  } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-transparent transition-all`}
-              />
-              {errors.accountNumber && (
-                <p className="mt-1 text-xs text-rose-500">{errors.accountNumber.message}</p>
-              )}
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
+                  Account Number
+                </label>
+                <input
+                  type="text"
+                  {...register("accountNumber", {
+                    required: "Account number is required",
+                    minLength: { value: 8, message: "At least 8 digits" },
+                  })}
+                  placeholder="9 to 18 digits"
+                  className={`block w-full px-4 py-2.5 bg-slate-950/80 border ${
+                    errors.accountNumber ? "border-rose-500" : "border-slate-800"
+                  } placeholder-slate-600 text-slate-100 text-sm rounded-xl focus:outline-none focus:border-brand-500 font-mono transition-all`}
+                />
+                {errors.accountNumber && (
+                  <p className="mt-1 text-xs text-rose-400 font-medium">{errors.accountNumber.message}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
+                  IFSC Code
+                </label>
+                <input
+                  type="text"
+                  {...register("ifscCode", {
+                    required: "IFSC Code required",
+                    pattern: {
+                      value: /^[A-Z]{4}0[A-Z0-9]{6}$/i,
+                      message: "Format: HDFC0001234",
+                    },
+                  })}
+                  placeholder="HDFC0001234"
+                  className={`block w-full px-4 py-2.5 bg-slate-950/80 border ${
+                    errors.ifscCode ? "border-rose-500" : "border-slate-800"
+                  } placeholder-slate-600 text-slate-100 text-sm rounded-xl focus:outline-none focus:border-brand-500 uppercase font-mono transition-all`}
+                />
+                {errors.ifscCode && (
+                  <p className="mt-1 text-xs text-rose-400 font-medium">{errors.ifscCode.message}</p>
+                )}
+              </div>
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
-                IFSC / Routing Code
-              </label>
-              <input
-                type="text"
-                {...register("ifscCode", { required: "Routing code is required" })}
-                placeholder="IFSC0001"
-                className={`block w-full px-3 py-2 bg-slate-900 border ${errors.ifscCode ? "border-rose-500" : "border-slate-800"
-                  } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-transparent transition-all`}
-              />
-              {errors.ifscCode && (
-                <p className="mt-1 text-xs text-rose-500">{errors.ifscCode.message}</p>
-              )}
-            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
+                  Account Type
+                </label>
+                <select
+                  {...register("accountType")}
+                  className="block w-full px-4 py-2.5 bg-slate-950/80 border border-slate-800 text-slate-100 text-sm rounded-xl focus:outline-none focus:border-brand-500"
+                >
+                  <option value="savings">Savings Account</option>
+                  <option value="checking">Current / Checking Account</option>
+                </select>
+              </div>
 
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
-                Account Type
-              </label>
-              <select
-                {...register("accountType")}
-                className="block w-full px-3 py-2.5 bg-slate-900 border border-slate-800 text-slate-300 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-500 transition-all"
-              >
-                <option value="checking">Checking</option>
-                <option value="savings">Savings</option>
-                <option value="investment">Investment</option>
-              </select>
-            </div>
-
-            <div className="flex items-center gap-2 py-1">
-              <input
-                type="checkbox"
-                id="isPrimary"
-                {...register("isPrimary")}
-                className="rounded bg-slate-900 border-slate-800 text-brand-500 focus:ring-brand-500 focus:ring-offset-slate-950 focus:ring-0"
-              />
-              <label htmlFor="isPrimary" className="text-xs text-slate-400 cursor-pointer select-none">
-                Set as Primary Billing Account
-              </label>
+              <div className="flex items-center pt-5">
+                <label className="flex items-center gap-2 text-xs font-semibold text-slate-300 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    {...register("isPrimary")}
+                    className="w-4 h-4 rounded border-slate-800 text-brand-500 focus:ring-brand-500 bg-slate-950"
+                  />
+                  Set as Primary Mandate
+                </label>
+              </div>
             </div>
 
             <button
               type="submit"
               disabled={submitting}
-              className="w-full flex justify-center items-center gap-2 py-2.5 px-4 border border-transparent rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 transition-all duration-300 disabled:opacity-50"
+              className="w-full py-3.5 bg-gradient-to-r from-brand-600 via-sky-600 to-brand-500 hover:from-brand-500 hover:to-sky-400 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-brand-600/20 disabled:opacity-50"
             >
-              {submitting ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  <span>Linking...</span>
-                </>
-              ) : (
-                <span>Link Account</span>
-              )}
+              {submitting ? "Linking Bank Mandate..." : "Link Bank Mandate"}
             </button>
           </form>
         </div>
 
-        {/* Linked Accounts List */}
-        <div className="lg:col-span-2 space-y-6">
-          <h3 className="text-xl font-bold text-white">Linked Accounts Feed</h3>
+        {/* Right List: Linked Accounts */}
+        <div className="lg:col-span-7 space-y-6">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xl font-bold text-white font-outfit">Verified Bank Mandates</h3>
+            <span className="text-xs text-slate-400">Total Linked: {accounts.length}</span>
+          </div>
 
           {loading ? (
-            <div className="flex items-center gap-2 text-slate-400 text-sm">
-              <div className="w-4 h-4 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
-              <span>Loading bank accounts...</span>
-            </div>
+            <div className="p-8 text-center text-slate-400 text-sm">Loading bank list...</div>
           ) : accounts.length === 0 ? (
-            <div className="p-8 rounded-2xl border border-slate-900 bg-slate-950/20 text-center space-y-3">
-              <FiAlertCircle className="w-8 h-8 text-slate-600 mx-auto" />
-              <p className="text-slate-400 text-sm">No linked bank accounts found.</p>
-              <p className="text-xs text-slate-600">
-                Link an account to start simulating spending and testing round-up savings.
+            <div className="p-12 rounded-3xl border border-slate-800/80 bg-slate-900/40 text-center space-y-3">
+              <FiHome className="w-10 h-10 text-slate-600 mx-auto" />
+              <p className="text-slate-300 font-semibold text-sm">No bank accounts linked yet.</p>
+              <p className="text-xs text-slate-500">
+                Link an account to start automated spare change round-ups.
               </p>
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {accounts.map((acc) => (
                 <div
-                  key={acc.id}
-                  className="p-6 rounded-2xl border border-slate-900 bg-slate-950/80 hover:border-slate-800 transition-all flex flex-col justify-between gap-4"
+                  key={acc._id}
+                  className={`p-6 rounded-3xl border transition-all space-y-4 relative ${
+                    acc.isPrimary
+                      ? "border-brand-500/50 bg-gradient-to-br from-brand-950/30 to-slate-900/80 shadow-lg shadow-brand-500/10"
+                      : "border-slate-800/80 bg-slate-900/50 hover:border-slate-700"
+                  }`}
                 >
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-start">
-                      <h4 className="font-bold text-white text-lg">{acc.bankName}</h4>
-                      {acc.isPrimary && (
-                        <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-green-500/10 border border-green-500/20 text-green-400">
-                          <FiCheck /> PRIMARY
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xl">
+                        🏦
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-white text-base">{acc.bankName}</h4>
+                        <span className="text-xs text-slate-400 font-mono">
+                          •••• {acc.accountNumber ? acc.accountNumber.slice(-4) : "1234"}
                         </span>
-                      )}
+                      </div>
                     </div>
-                    <p className="text-xs text-slate-500 font-mono">
-                      Acc No: •••• •••• {acc.accountNumber.slice(-4) || acc.accountNumber}
-                    </p>
-                    <div className="flex gap-3 text-xs text-slate-400">
-                      <span className="capitalize">{acc.accountType}</span>
-                      <span>•</span>
-                      <span>IFSC: {acc.ifscCode}</span>
-                    </div>
-                  </div>
 
-                  <div className="flex justify-between items-center border-t border-slate-900 pt-4">
-                    <span className="text-xs text-slate-500">Holder: {acc.accountHolderName}</span>
                     <button
-                      onClick={() => handleDelete(acc.id)}
-                      className="p-1.5 rounded-lg border border-slate-800 hover:border-rose-900/50 hover:bg-rose-500/10 text-slate-500 hover:text-rose-400 transition-all"
-                      title="Unlink Account"
+                      onClick={() => handleDelete(acc._id)}
+                      className="p-2 text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 rounded-xl transition-all"
+                      title="Unlink Bank Account"
                     >
                       <FiTrash2 className="w-4 h-4" />
                     </button>
+                  </div>
+
+                  <div className="text-xs space-y-1 text-slate-400 border-t border-slate-800/80 pt-3">
+                    <div className="flex justify-between">
+                      <span>Holder:</span>
+                      <span className="text-slate-200 font-semibold">{acc.accountHolderName}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>IFSC:</span>
+                      <span className="text-slate-200 font-mono">{acc.ifscCode}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Type:</span>
+                      <span className="text-slate-200 uppercase text-[10px] font-bold">{acc.accountType || "Savings"}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between items-center pt-2">
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/30">
+                      <FiCheckCircle className="w-3 h-3" /> VERIFIED MANDATE
+                    </span>
+
+                    {acc.isPrimary && (
+                      <span className="text-[10px] font-extrabold text-brand-400 bg-brand-500/10 px-2.5 py-1 rounded-full border border-brand-500/30 uppercase tracking-wider">
+                        PRIMARY
+                      </span>
+                    )}
                   </div>
                 </div>
               ))}

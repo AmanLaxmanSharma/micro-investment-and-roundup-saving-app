@@ -91,7 +91,7 @@ export default function HomePage() {
     const r = interestRate / 100 / 12;
     const n = years * 12;
     if (r === 0) return P * n;
-    
+
     // FV = P * (((1 + r)^n - 1) / r) * (1 + r)
     const futureValue = P * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
     const totalInvested = P * n;
@@ -109,7 +109,7 @@ export default function HomePage() {
 
   return (
     <div className="relative min-h-[calc(100vh-73px)] w-full overflow-hidden bg-slate-950 text-slate-100 pb-20">
-      
+
       {/* Background Decorative Mesh Gradients */}
       <div className="absolute top-0 left-0 right-0 h-[600px] bg-gradient-to-b from-brand-950/20 via-transparent to-transparent pointer-events-none" />
       <div className="absolute top-[10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-brand-500/10 blur-[130px] animate-pulse-slow pointer-events-none" />
@@ -165,7 +165,7 @@ export default function HomePage() {
 
       {/* Live Round-up Simulator & Interactive Interest Calculator Row */}
       <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 md:mt-36 grid grid-cols-1 lg:grid-cols-2 gap-10">
-        
+
         {/* Dynamic Round-up Simulator */}
         <div className="bg-slate-900/50 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 flex flex-col justify-between shadow-2xl relative overflow-hidden animate-fade-in-up-delayed">
           <div className="absolute top-0 right-0 p-6 opacity-5 pointer-events-none">
@@ -185,7 +185,7 @@ export default function HomePage() {
             </div>
 
             <p className="text-sm text-slate-400 leading-relaxed">
-              Every time you spend, Sikka rounds up to the nearest dollar and auto-invests. Watch how it works in real-time below:
+              Every time you spend, Sikka rounds up to the nearest Rupees and auto-invests. Watch how it works in real-time below:
             </p>
 
             {/* Simulated Feed */}
@@ -201,11 +201,11 @@ export default function HomePage() {
                     </span>
                     <div>
                       <h4 className="text-sm font-semibold text-white">{tx.merchant}</h4>
-                      <p className="text-xs text-slate-500">Transaction: ${tx.spent.toFixed(2)}</p>
+                      <p className="text-xs text-slate-500">Transaction: ₹{tx.spent.toFixed(2)}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="text-sm font-bold text-brand-400">+${tx.rounded.toFixed(2)}</span>
+                    <span className="text-sm font-bold text-brand-400">+₹{tx.rounded.toFixed(2)}</span>
                     <p className="text-xs text-slate-500">Rounded Up</p>
                   </div>
                 </div>
@@ -216,7 +216,7 @@ export default function HomePage() {
           <div className="pt-6 border-t border-slate-800/80 mt-6 flex justify-between items-center bg-gradient-to-r from-brand-950/20 to-transparent p-4 rounded-2xl">
             <div>
               <p className="text-xs text-slate-400 uppercase font-semibold">Total Invested This Month</p>
-              <h4 className="text-3xl font-extrabold text-white mt-1">${simulatorTotal.toFixed(2)}</h4>
+              <h4 className="text-3xl font-extrabold text-white mt-1">₹{simulatorTotal.toFixed(2)}</h4>
             </div>
             <div className="text-right">
               <span className="text-xs font-semibold px-2 py-1 rounded bg-brand-500/10 text-brand-400">Compounding 8.5% APY</span>
@@ -241,7 +241,7 @@ export default function HomePage() {
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-slate-400 font-medium">Monthly Contribution</span>
-                  <span className="text-brand-400 font-bold">${monthlyInvestment}/mo</span>
+                  <span className="text-brand-400 font-bold">₹{monthlyInvestment}/mo</span>
                 </div>
                 <input
                   type="range"
@@ -293,12 +293,12 @@ export default function HomePage() {
           <div className="pt-6 border-t border-slate-800/80 mt-6 grid grid-cols-2 gap-4">
             <div className="p-4 rounded-2xl bg-slate-950/60 border border-slate-900/60">
               <span className="text-xs text-slate-500 block">Total Invested</span>
-              <span className="text-xl font-bold text-slate-300">${results.invested}</span>
+              <span className="text-xl font-bold text-slate-300">₹{results.invested}</span>
             </div>
             <div className="p-4 rounded-2xl bg-brand-500/5 border border-brand-500/10">
               <span className="text-xs text-brand-400 block font-semibold">Total Wealth Value</span>
-              <span className="text-2xl font-black text-white">${results.total}</span>
-              <span className="text-[10px] text-green-400 block mt-0.5">+${results.returns} earnings</span>
+              <span className="text-2xl font-black text-white">₹{results.total}</span>
+              <span className="text-[10px] text-green-400 block mt-0.5">+₹{results.returns} earnings</span>
             </div>
           </div>
         </div>
@@ -444,7 +444,7 @@ export default function HomePage() {
       <section className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-32 md:mt-44 text-center animate-fade-in-up-more-delayed">
         <div className="p-8 rounded-3xl border border-slate-900 bg-slate-950/80 backdrop-blur-xl relative overflow-hidden shadow-2xl">
           <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-transparent via-brand-500 to-transparent" />
-          
+
           <h3 className="text-sm font-semibold uppercase tracking-widest text-slate-500 mb-5 flex items-center justify-center gap-2">
             <FiActivity className="text-brand-400 animate-pulse" />
             Sikka Ledger Gateway Diagnostic
