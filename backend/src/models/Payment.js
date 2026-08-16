@@ -45,8 +45,6 @@ const paymentSchema = new mongoose.Schema(
   },
 );
 
-paymentSchema.index({ gatewayOrderId: 1 });
-
 const Payment = mongoose.model("Payment", paymentSchema);
 
 export default Payment;

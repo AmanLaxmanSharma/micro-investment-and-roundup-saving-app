@@ -1,4 +1,5 @@
 import BankAccount from "../models/BankAccount.js";
+import User from "../models/User.js";
 import { isMongoAvailable } from "../config/db.js";
 
 const memoryBankAccounts = [];
@@ -7,11 +8,17 @@ export const listBankAccountsForUser = async (userId) => {
   if (isMongoAvailable()) {
     let accounts = await BankAccount.find({ userId });
     if (accounts.length === 0) {
+      const user = await User.findById(userId);
+      const holderName = user
+        ? `${user.firstName || ''} ${user.lastName || ''}`.trim() || "Primary Account Holder"
+        : "Primary Account Holder";
+
       const defaultAcc = await BankAccount.create({
         userId,
-        accountName: "Primary Savings Account",
+        accountHolderName: holderName,
         bankName: "HDFC Bank",
         accountNumber: "987654324821",
+        ifscCode: "HDFC0001234",
         accountType: "checking",
         isPrimary: true,
         status: "verified",
@@ -27,9 +34,10 @@ export const listBankAccountsForUser = async (userId) => {
     const defaultAcc = {
       _id: `bank_${Date.now()}`,
       userId,
-      accountName: "Primary Savings Account",
+      accountHolderName: "Primary Account Holder",
       bankName: "HDFC Bank",
       accountNumber: "987654324821",
+      ifscCode: "HDFC0001234",
       accountType: "checking",
       isPrimary: true,
       status: "verified",

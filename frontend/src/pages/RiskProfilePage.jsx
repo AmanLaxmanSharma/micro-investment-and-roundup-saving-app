@@ -92,11 +92,11 @@ export default function RiskProfilePage() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-10 space-y-10">
       <div className="space-y-2">
-        <h2 className="text-3xl font-extrabold tracking-tight text-white flex items-center gap-3">
-          <FiSliders className="text-brand-500" />
+        <h2 className="text-3xl font-extrabold tracking-tight text-[#15231D] flex items-center gap-3 font-outfit">
+          <FiSliders className="text-[#18A66A]" />
           Risk Appetite Questionnaire
         </h2>
-        <p className="text-slate-400">
+        <p className="text-sm text-[#60736A]">
           Answer the questions below to evaluate your compliance levels and obtain a recommended asset portfolio.
         </p>
       </div>
@@ -106,7 +106,7 @@ export default function RiskProfilePage() {
         <form onSubmit={handleSubmit(onSubmit)} className="lg:col-span-3 space-y-8">
           {questions.map((q) => (
             <div key={q.key} className="space-y-3">
-              <label className="block text-sm font-bold text-slate-300">
+              <label className="block text-sm font-bold text-[#15231D]">
                 {q.label}
               </label>
 
@@ -122,21 +122,21 @@ export default function RiskProfilePage() {
                           key={opt.value}
                           type="button"
                           onClick={() => field.onChange(opt.value)}
-                          className={`p-4 rounded-xl border text-left flex flex-col justify-between gap-3 transition-all ${
+                          className={`p-4 rounded-2xl border text-left flex flex-col justify-between gap-3 transition-all ${
                             isSelected
-                              ? "bg-brand-500/10 border-brand-500 ring-1 ring-brand-500"
-                              : "bg-slate-950/40 border-slate-900 hover:border-slate-800"
+                              ? "bg-[#E3F5ED] border-[#18A66A] ring-1 ring-[#18A66A] shadow-sm"
+                              : "bg-white border-[#D7E2DC] hover:border-slate-300"
                           }`}
                         >
                           <div>
                             <span
                               className={`text-xs font-bold uppercase tracking-wider ${
-                                isSelected ? "text-brand-400" : "text-slate-400"
+                                isSelected ? "text-[#123B2A]" : "text-[#60736A]"
                               }`}
                             >
                               {opt.title}
                             </span>
-                            <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                            <p className="text-xs text-[#60736A] mt-1 leading-relaxed">
                               {opt.desc}
                             </p>
                           </div>
@@ -152,7 +152,7 @@ export default function RiskProfilePage() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full sm:w-auto flex justify-center items-center gap-2 py-3 px-8 border border-transparent rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 transition-all duration-300 disabled:opacity-50"
+            className="w-full sm:w-auto flex justify-center items-center gap-2 py-3.5 px-8 rounded-xl text-sm font-bold text-white bg-[#18A66A] hover:bg-[#159A63] shadow-sm transition-all disabled:opacity-50 hover:scale-[1.01]"
           >
             {submitting ? (
               <>
@@ -170,25 +170,23 @@ export default function RiskProfilePage() {
 
         {/* Recommended Portfolio Panel */}
         <div className="lg:col-span-2 space-y-6">
-          <h3 className="text-xl font-bold text-white">Recommended Allocation</h3>
+          <h3 className="text-xl font-bold text-[#15231D] font-outfit">Recommended Allocation</h3>
 
           {profile ? (
-            <div className="p-6 rounded-2xl border border-slate-900 bg-slate-950/80 space-y-6 shadow-xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-40 h-40 bg-brand-500/5 rounded-full blur-[80px] pointer-events-none" />
-
+            <div className="p-6 rounded-3xl border border-[#D7E2DC] bg-white space-y-6 shadow-sm relative overflow-hidden">
               {/* Score and Level Banners */}
               <div className="flex justify-between items-center">
-                <span className="text-xs font-semibold px-2.5 py-1 bg-slate-900 border border-slate-800 text-slate-400 rounded">
+                <span className="text-xs font-semibold px-2.5 py-1 bg-[#F5F7F2] border border-[#D7E2DC] text-[#60736A] rounded-lg">
                   Score: {profile.score}
                 </span>
 
                 <span
                   className={`text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider ${
                     profile.level === "aggressive"
-                      ? "bg-purple-500/10 border border-purple-500/20 text-purple-400"
+                      ? "bg-purple-50 border border-purple-200 text-purple-800"
                       : profile.level === "moderate"
-                      ? "bg-amber-500/10 border border-amber-500/20 text-amber-400"
-                      : "bg-green-500/10 border border-green-500/20 text-green-400"
+                      ? "bg-amber-50 border border-amber-200 text-amber-800"
+                      : "bg-emerald-50 border border-emerald-200 text-emerald-800"
                   }`}
                 >
                   {profile.level}
@@ -199,20 +197,20 @@ export default function RiskProfilePage() {
               {profile.recommendedPortfolio ? (
                 <div className="space-y-4">
                   <div className="space-y-1">
-                    <h4 className="text-lg font-extrabold text-white">
+                    <h4 className="text-lg font-extrabold text-[#15231D]">
                       {profile.recommendedPortfolio.name}
                     </h4>
-                    <p className="text-xs text-slate-400 leading-relaxed">
+                    <p className="text-xs text-[#60736A] leading-relaxed">
                       {profile.recommendedPortfolio.description}
                     </p>
                   </div>
 
                   {/* Return rate banner */}
-                  <div className="flex items-center gap-2 p-3 rounded-lg border border-slate-900 bg-slate-950/50">
-                    <FiTrendingUp className="text-green-400 w-4 h-4" />
-                    <span className="text-xs text-slate-400">
+                  <div className="flex items-center gap-2 p-3 rounded-xl border border-[#D7E2DC] bg-[#F5F7F2]">
+                    <FiTrendingUp className="text-[#159A63] w-4 h-4" />
+                    <span className="text-xs text-[#60736A]">
                       Historical Return Rate:{" "}
-                      <strong className="text-white">
+                      <strong className="text-[#15231D]">
                         {profile.recommendedPortfolio.historicalReturnRate}%
                       </strong>{" "}
                       annualized
@@ -221,18 +219,18 @@ export default function RiskProfilePage() {
 
                   {/* Asset Allocation Percentage Bar Visual */}
                   <div className="space-y-3 pt-2">
-                    <h5 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                    <h5 className="text-xs font-semibold uppercase tracking-wider text-[#60736A]">
                       Asset Allocation Breakdown
                     </h5>
                     
                     {/* Visual Segmented Bar */}
-                    <div className="h-2 w-full bg-slate-900 rounded-full overflow-hidden flex">
+                    <div className="h-2.5 w-full bg-[#F5F7F2] rounded-full overflow-hidden flex border border-[#D7E2DC]">
                       {profile.recommendedPortfolio.assetAllocation.map((asset, i) => {
                         const colors = [
-                          "bg-brand-500",
+                          "bg-[#18A66A]",
+                          "bg-sky-500",
                           "bg-indigo-500",
                           "bg-purple-500",
-                          "bg-pink-500",
                         ];
                         return (
                           <div
@@ -248,16 +246,16 @@ export default function RiskProfilePage() {
                     <div className="grid grid-cols-2 gap-3 pt-2">
                       {profile.recommendedPortfolio.assetAllocation.map((asset, i) => {
                         const colors = [
-                          "bg-brand-500",
+                          "bg-[#18A66A]",
+                          "bg-sky-500",
                           "bg-indigo-500",
                           "bg-purple-500",
-                          "bg-pink-500",
                         ];
                         return (
                           <div key={asset.asset} className="flex items-center gap-2 text-xs">
                             <span className={`w-2.5 h-2.5 rounded ${colors[i % colors.length]}`} />
-                            <span className="text-slate-400">{asset.asset}</span>
-                            <span className="font-bold text-white font-mono ml-auto">
+                            <span className="text-[#60736A]">{asset.asset}</span>
+                            <span className="font-bold text-[#15231D] font-mono ml-auto">
                               {asset.percentage}%
                             </span>
                           </div>
@@ -267,14 +265,14 @@ export default function RiskProfilePage() {
                   </div>
                 </div>
               ) : (
-                <p className="text-xs text-slate-500">Recommended portfolio metadata loading...</p>
+                <p className="text-xs text-[#8A9A92]">Recommended portfolio metadata loading...</p>
               )}
             </div>
           ) : (
-            <div className="p-8 border border-slate-900 bg-slate-950/20 rounded-2xl text-center space-y-3">
-              <FiShield className="w-8 h-8 text-slate-700 mx-auto" />
-              <p className="text-slate-400 text-sm">No evaluated profile found.</p>
-              <p className="text-xs text-slate-600 leading-relaxed">
+            <div className="p-8 border border-[#D7E2DC] bg-white rounded-3xl text-center space-y-3 shadow-sm">
+              <FiShield className="w-8 h-8 text-[#8A9A92] mx-auto" />
+              <p className="text-[#15231D] font-semibold text-sm">No evaluated profile found.</p>
+              <p className="text-xs text-[#60736A] leading-relaxed">
                 Please complete the questions on the left. The Sikka ledger will match you to a matching investment pool automatically.
               </p>
             </div>

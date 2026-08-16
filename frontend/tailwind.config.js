@@ -4,46 +4,73 @@ export default {
   theme: {
     extend: {
       colors: {
+        fintech: {
+          page: "#F5F7F2",       /* Warm green-tinted off-white */
+          card: "#FFFFFF",       /* Main card background */
+          dark: "#123B2A",       /* Primary dark surface - Deep forest green */
+          dark2: "#1B4D38",      /* Secondary dark surface */
+          primary: "#18A66A",    /* Primary brand green */
+          mintBright: "#55CFA0", /* Bright mint accent */
+          mintSoft: "#E3F5ED",   /* Soft mint background */
+          textMain: "#15231D",   /* Main text */
+          textSec: "#60736A",    /* Secondary text */
+          textMuted: "#8A9A92",  /* Muted text */
+          border: "#D7E2DC",     /* Borders */
+          blue: "#4778D9",       /* Blue info accent */
+          purple: "#7658C9",     /* Purple accent */
+          warning: "#D69A35",    /* Warning / Gold */
+          growth: "#159A63",     /* Growth / Positive */
+        },
         brand: {
-          50: "#f0f9ff",
-          100: "#e0f2fe",
-          200: "#bae6fd",
-          300: "#7dd3fc",
-          400: "#38bdf8",
-          500: "#0ea5e9",
-          600: "#0284c7",
-          700: "#0369a1",
-          800: "#075985",
-          900: "#0c4a6e",
-          950: "#06283d",
+          50: "#F5F7F2",
+          100: "#E3F5ED",
+          200: "#C4EAD9",
+          300: "#8ED9B9",
+          400: "#55CFA0",
+          500: "#18A66A",
+          600: "#159A63",
+          700: "#1B4D38",
+          800: "#123B2A",
+          900: "#0E2E21",
+          950: "#081C14",
         },
         emerald: {
-          50: "#ecfdf5",
-          100: "#d1fae5",
-          200: "#a7f3d0",
-          300: "#6ee7b7",
-          400: "#34d399",
-          500: "#10b981",
-          600: "#059669",
-          700: "#047857",
-          800: "#065f46",
-          900: "#064e3b",
-          950: "#022c22",
+          50: "#F5F7F2",
+          100: "#E3F5ED",
+          200: "#C4EAD9",
+          300: "#8ED9B9",
+          400: "#55CFA0",
+          500: "#18A66A",
+          600: "#159A63",
+          700: "#1B4D38",
+          800: "#123B2A",
+          900: "#0E2E21",
+          950: "#081C14",
+        },
+        mint: {
+          50: "#FAFCFB",
+          100: "#E3F5ED",
+          200: "#C4EAD9",
+          300: "#8ED9B9",
+          400: "#55CFA0",
+          500: "#18A66A",
+          600: "#123B2A",
         },
         dark: {
-          950: "#080c14",
-          900: "#0d1322",
-          850: "#121b2d",
-          800: "#172239",
-          700: "#223150",
-          600: "#33466e",
+          950: "#F5F7F2",
+          900: "#FFFFFF",
+          850: "#F8FAF6",
+          800: "#E3F5ED",
+          700: "#D7E2DC",
+          600: "#18A66A",
         }
       },
       boxShadow: {
-        'glow-brand': '0 0 25px -5px rgba(14, 165, 233, 0.3)',
-        'glow-emerald': '0 0 25px -5px rgba(16, 185, 129, 0.3)',
-        'glow-amber': '0 0 25px -5px rgba(245, 158, 11, 0.3)',
-        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+        'glow-brand': '0 4px 20px -2px rgba(24, 166, 106, 0.15)',
+        'glow-emerald': '0 4px 20px -2px rgba(85, 207, 160, 0.2)',
+        'glow-mint': '0 4px 20px -2px rgba(227, 245, 237, 0.5)',
+        'glass': '0 4px 20px 0 rgba(18, 59, 42, 0.06)',
+        'card-light': '0 1px 3px 0 rgba(21, 35, 29, 0.05), 0 1px 2px 0 rgba(21, 35, 29, 0.02)',
       },
       animation: {
         'float': 'float 6s ease-in-out infinite',
@@ -59,11 +86,11 @@ export default {
         },
         'pulse-slow': {
           '0%, 100%': { opacity: 1 },
-          '50%': { opacity: 0.5 },
+          '50%': { opacity: 0.7 },
         },
         'glow-pulse': {
-          '0%, 100%': { opacity: 0.6, transform: 'scale(1)' },
-          '50%': { opacity: 0.9, transform: 'scale(1.02)' },
+          '0%, 100%': { opacity: 0.7, transform: 'scale(1)' },
+          '50%': { opacity: 1, transform: 'scale(1.02)' },
         },
         shimmer: {
           '0%': { backgroundPosition: '-200% 0' },

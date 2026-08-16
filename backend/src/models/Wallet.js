@@ -27,8 +27,6 @@ const walletSchema = new mongoose.Schema(
   },
 );
 
-walletSchema.index({ userId: 1 });
-
 const Wallet = mongoose.model("Wallet", walletSchema);
 
 export default Wallet;

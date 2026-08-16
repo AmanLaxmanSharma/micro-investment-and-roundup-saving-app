@@ -36,8 +36,6 @@ const kycSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-kycSchema.index({ userId: 1 });
-
 const KYC = mongoose.model("KYC", kycSchema);
 
 export default KYC;

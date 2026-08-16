@@ -85,27 +85,27 @@ export default function KycPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
       <div className="space-y-2 mb-8">
-        <h2 className="text-3xl font-extrabold tracking-tight text-white flex items-center gap-3">
-          <FiUserCheck className="text-brand-500" />
+        <h2 className="text-3xl font-extrabold tracking-tight text-[#15231D] flex items-center gap-3 font-outfit">
+          <FiUserCheck className="text-[#18A66A]" />
           KYC Compliance Verification
         </h2>
-        <p className="text-slate-400">
+        <p className="text-sm text-[#60736A]">
           Verify your identity to unlock all wallet features, limits, and portfolios.
         </p>
       </div>
 
       {kycRecord.status === "approved" && (
-        <div className="p-6 rounded-2xl border border-green-900/50 bg-green-950/20 backdrop-blur-md flex items-start gap-4">
-          <div className="p-3 rounded-xl bg-green-500/10 text-green-400">
+        <div className="p-6 rounded-3xl border border-[#18A66A]/30 bg-[#E3F5ED]/40 flex items-start gap-4 shadow-sm">
+          <div className="p-3 rounded-2xl bg-[#E3F5ED] text-[#18A66A] border border-[#18A66A]/30">
             <FiCheckCircle className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-white">Identity Verified</h3>
-            <p className="text-slate-400 text-sm mt-1">
+            <h3 className="text-lg font-bold text-[#15231D]">Identity Verified</h3>
+            <p className="text-[#60736A] text-sm mt-1">
               Your KYC documents were reviewed and approved on{" "}
               {new Date(kycRecord.updatedAt).toLocaleDateString()}. Your account is fully unlocked.
             </p>
-            <div className="mt-4 flex gap-4 text-xs font-mono text-slate-500">
+            <div className="mt-4 flex gap-4 text-xs font-mono text-[#8A9A92]">
               <span>Type: {kycRecord.documentType.toUpperCase()}</span>
               <span>Doc No: {kycRecord.documentNumber}</span>
             </div>
@@ -114,17 +114,17 @@ export default function KycPage() {
       )}
 
       {kycRecord.status === "pending" && (
-        <div className="p-6 rounded-2xl border border-yellow-950 bg-yellow-950/10 backdrop-blur-md flex items-start gap-4">
-          <div className="p-3 rounded-xl bg-yellow-500/10 text-yellow-400">
+        <div className="p-6 rounded-3xl border border-amber-200 bg-amber-50 flex items-start gap-4 shadow-sm">
+          <div className="p-3 rounded-2xl bg-amber-100 text-amber-700">
             <FiClock className="w-6 h-6 animate-pulse" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-white">Verification Pending</h3>
-            <p className="text-slate-400 text-sm mt-1">
+            <h3 className="text-lg font-bold text-[#15231D]">Verification Pending</h3>
+            <p className="text-[#60736A] text-sm mt-1">
               Your files have been received and are undergoing review by our compliance desk.
               Reviews are typically completed within 24 hours.
             </p>
-            <div className="mt-4 flex gap-4 text-xs font-mono text-slate-500">
+            <div className="mt-4 flex gap-4 text-xs font-mono text-[#8A9A92]">
               <span>Type: {kycRecord.documentType.toUpperCase()}</span>
               <span>Doc No: {kycRecord.documentNumber}</span>
             </div>
@@ -136,42 +136,42 @@ export default function KycPage() {
         <div className="grid md:grid-cols-3 gap-8">
           <div className="md:col-span-2 space-y-6">
             {kycRecord.status === "rejected" && (
-              <div className="p-6 rounded-2xl border border-rose-900/50 bg-rose-950/20 backdrop-blur-md flex items-start gap-4 mb-6">
-                <div className="p-3 rounded-xl bg-rose-500/10 text-rose-400">
+              <div className="p-6 rounded-3xl border border-rose-200 bg-rose-50 flex items-start gap-4 mb-6 shadow-sm">
+                <div className="p-3 rounded-2xl bg-rose-100 text-rose-600">
                   <FiAlertCircle className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">Verification Rejected</h3>
-                  <p className="text-rose-400 text-sm mt-1">
+                  <h3 className="text-lg font-bold text-rose-900">Verification Rejected</h3>
+                  <p className="text-rose-700 text-sm mt-1">
                     {kycRecord.rejectionReason || "The uploaded document was unreadable or expired."}
                   </p>
-                  <p className="text-slate-400 text-xs mt-2">
+                  <p className="text-[#60736A] text-xs mt-2">
                     Please submit a new valid document below to re-verify your identity.
                   </p>
                 </div>
               </div>
             )}
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 p-8 rounded-2xl border border-slate-900 bg-slate-950/50">
-              <h3 className="text-xl font-bold text-white">Upload New Identity Document</h3>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 p-8 rounded-3xl border border-[#D7E2DC] bg-white shadow-sm">
+              <h3 className="text-xl font-bold text-[#15231D] font-outfit">Upload New Identity Document</h3>
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#60736A] mb-1.5">
                     Document Type
                   </label>
                   <select
                     {...register("documentType")}
-                    className="block w-full px-3 py-2.5 bg-slate-900 border border-slate-800 text-slate-300 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all"
+                    className="block w-full px-3 py-2.5 bg-white border border-[#D7E2DC] text-[#15231D] text-sm rounded-xl focus:outline-none focus:border-[#18A66A] cursor-pointer"
                   >
                     <option value="passport">Passport</option>
-                    <option value="national_id">Adhar Card</option>
+                    <option value="national_id">Aadhaar Card</option>
                     <option value="driver_license">PAN Card</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#60736A] mb-1.5">
                     Document Number
                   </label>
                   <input
@@ -180,11 +180,11 @@ export default function KycPage() {
                       required: "Document ID number is required",
                     })}
                     placeholder="e.g. DL129302"
-                    className={`block w-full px-3 py-2.5 bg-slate-900 border ${errors.documentNumber ? "border-rose-500" : "border-slate-800"
-                      } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all`}
+                    className={`block w-full px-3 py-2.5 bg-white border ${errors.documentNumber ? "border-rose-500" : "border-[#D7E2DC]"
+                      } placeholder-[#8A9A92] text-[#15231D] text-sm rounded-xl focus:outline-none focus:border-[#18A66A] transition-all`}
                   />
                   {errors.documentNumber && (
-                    <p className="mt-1 text-xs text-rose-500 font-medium">
+                    <p className="mt-1 text-xs text-rose-600 font-medium">
                       {errors.documentNumber.message}
                     </p>
                   )}
@@ -192,10 +192,10 @@ export default function KycPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#60736A] mb-2">
                   Document Attachment (PDF, JPG, PNG - Max 5MB)
                 </label>
-                <div className="relative border-2 border-dashed border-slate-800 hover:border-slate-700 rounded-xl p-8 flex flex-col items-center justify-center transition-all bg-slate-900/30">
+                <div className="relative border-2 border-dashed border-[#D7E2DC] hover:border-[#18A66A] rounded-2xl p-8 flex flex-col items-center justify-center transition-all bg-[#F5F7F2]">
                   <input
                     type="file"
                     {...register("document", {
@@ -203,18 +203,18 @@ export default function KycPage() {
                     })}
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                   />
-                  <FiUpload className="w-8 h-8 text-slate-500 mb-3" />
-                  <span className="text-sm text-slate-300 font-medium">
+                  <FiUpload className="w-8 h-8 text-[#18A66A] mb-3" />
+                  <span className="text-sm text-[#15231D] font-medium">
                     {selectedFile && selectedFile.length > 0
                       ? selectedFile[0].name
                       : "Drag & drop files or click to choose"}
                   </span>
-                  <span className="text-xs text-slate-500 mt-1">
+                  <span className="text-xs text-[#8A9A92] mt-1">
                     Accepts JPEG, PNG, or PDF formats up to 5MB.
                   </span>
                 </div>
                 {errors.document && (
-                  <p className="mt-1.5 text-xs text-rose-500 font-medium">
+                  <p className="mt-1.5 text-xs text-rose-600 font-medium">
                     {errors.document.message}
                   </p>
                 )}
@@ -223,7 +223,7 @@ export default function KycPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 transition-all duration-300 disabled:opacity-50"
+                className="w-full flex justify-center items-center gap-2 py-3.5 px-4 rounded-xl text-sm font-bold text-white bg-[#18A66A] hover:bg-[#159A63] shadow-sm transition-all disabled:opacity-50"
               >
                 {submitting ? (
                   <>
@@ -232,7 +232,7 @@ export default function KycPage() {
                   </>
                 ) : (
                   <>
-                    <span>Submit Verification request</span>
+                    <span>Submit Verification Request</span>
                   </>
                 )}
               </button>
@@ -240,25 +240,25 @@ export default function KycPage() {
           </div>
 
           <div className="space-y-6">
-            <div className="p-6 rounded-2xl border border-slate-900 bg-slate-950/40 space-y-4">
-              <h4 className="text-sm font-bold text-white uppercase tracking-wider text-slate-500">
+            <div className="p-6 rounded-3xl border border-[#D7E2DC] bg-white shadow-sm space-y-4">
+              <h4 className="text-xs font-bold text-[#15231D] uppercase tracking-wider">
                 Verification Guidelines
               </h4>
-              <ul className="text-xs text-slate-400 space-y-3 leading-relaxed">
+              <ul className="text-xs text-[#60736A] space-y-3 leading-relaxed">
                 <li className="flex gap-2">
-                  <span className="text-brand-500 font-bold">•</span>
+                  <span className="text-[#18A66A] font-bold">•</span>
                   Ensure your name matches the details in your profile settings.
                 </li>
                 <li className="flex gap-2">
-                  <span className="text-brand-500 font-bold">•</span>
+                  <span className="text-[#18A66A] font-bold">•</span>
                   Double check that photos are in focus and text is readable.
                 </li>
                 <li className="flex gap-2">
-                  <span className="text-brand-500 font-bold">•</span>
+                  <span className="text-[#18A66A] font-bold">•</span>
                   Provide files containing both the front and back of ID cards.
                 </li>
                 <li className="flex gap-2">
-                  <span className="text-brand-500 font-bold">•</span>
+                  <span className="text-[#18A66A] font-bold">•</span>
                   Attach the original file rather than taking screen captures.
                 </li>
               </ul>

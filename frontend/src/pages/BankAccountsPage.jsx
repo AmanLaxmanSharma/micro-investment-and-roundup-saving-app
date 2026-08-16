@@ -87,16 +87,16 @@ export default function BankAccountsPage() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-10 space-y-10">
       {/* Header Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800/80 pb-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#D7E2DC] pb-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-2">
-            <FiShield className="w-3.5 h-3.5" /> NPCI & Reserve Bank Compliant
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E3F5ED] border border-[#18A66A]/30 text-[#123B2A] text-xs font-bold uppercase tracking-wider mb-2">
+            <FiShield className="w-3.5 h-3.5 text-[#18A66A]" /> NPCI & Reserve Bank Compliant
           </div>
-          <h2 className="text-3xl font-extrabold tracking-tight text-white font-outfit flex items-center gap-3">
-            <FiHome className={isAdvisor ? "text-emerald-400" : "text-brand-400"} />
+          <h2 className="text-3xl font-extrabold tracking-tight text-[#15231D] font-outfit flex items-center gap-3">
+            <FiHome className={isAdvisor ? "text-[#18A66A]" : "text-[#18A66A]"} />
             {isAdvisor ? "Advisor Fee Settlement Accounts" : "Linked Bank Accounts"}
           </h2>
-          <p className="text-sm text-slate-400 mt-1">
+          <p className="text-sm text-[#60736A] mt-1">
             {isAdvisor
               ? "Manage linked bank accounts to receive direct consultation retainer deposits."
               : "Link savings or checking accounts for automated round-up tracking and instant withdrawals."}
@@ -106,18 +106,18 @@ export default function BankAccountsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Form: Add Bank */}
-        <div className="lg:col-span-5 p-6 rounded-3xl border border-slate-800/90 bg-slate-900/60 backdrop-blur-xl shadow-xl space-y-5">
+        <div className="lg:col-span-5 p-6 rounded-3xl border border-[#D7E2DC] bg-white shadow-sm space-y-5">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-bold text-white flex items-center gap-2 font-outfit">
-              <FiPlusCircle className={isAdvisor ? "text-emerald-400" : "text-brand-400"} />
+            <h3 className="text-lg font-bold text-[#15231D] flex items-center gap-2 font-outfit">
+              <FiPlusCircle className="text-[#18A66A]" />
               {isAdvisor ? "Add Advisor Payout Account" : "Link New Bank Account"}
             </h3>
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">INSTANT MANDATE</span>
+            <span className="text-[10px] font-bold text-[#8A9A92] uppercase tracking-wider">INSTANT MANDATE</span>
           </div>
 
           {/* Quick Bank Chips */}
           <div>
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
+            <span className="text-[11px] font-bold text-[#60736A] uppercase tracking-wider block mb-2">
               Popular Indian Banks:
             </span>
             <div className="flex flex-wrap gap-1.5">
@@ -126,7 +126,7 @@ export default function BankAccountsPage() {
                   key={b.code}
                   type="button"
                   onClick={() => selectPopularBank(b)}
-                  className="px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-950 border border-slate-800 hover:border-brand-500/50 hover:bg-brand-500/10 text-slate-300 transition-all flex items-center gap-1"
+                  className="px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-slate-50 border border-slate-200 hover:border-[#18A66A] hover:bg-[#E3F5ED] text-[#15231D] transition-all flex items-center gap-1.5 shadow-2xs"
                 >
                   <span>{b.logo}</span>
                   <span>{b.name}</span>
@@ -137,42 +137,42 @@ export default function BankAccountsPage() {
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-[#60736A] mb-1">
                 Bank Name
               </label>
               <input
                 type="text"
                 {...register("bankName", { required: "Bank name is required" })}
                 placeholder="e.g. HDFC Bank"
-                className={`block w-full px-4 py-2.5 bg-slate-950/80 border ${
-                  errors.bankName ? "border-rose-500" : "border-slate-800"
-                } placeholder-slate-600 text-slate-100 text-sm rounded-xl focus:outline-none focus:border-brand-500 transition-all`}
+                className={`block w-full px-4 py-2.5 bg-white border ${
+                  errors.bankName ? "border-rose-500" : "border-[#D7E2DC]"
+                } placeholder-[#8A9A92] text-[#15231D] text-sm rounded-xl focus:outline-none focus:border-[#18A66A] focus:ring-1 focus:ring-[#18A66A] transition-all`}
               />
               {errors.bankName && (
-                <p className="mt-1 text-xs text-rose-400 font-medium">{errors.bankName.message}</p>
+                <p className="mt-1 text-xs text-rose-600 font-medium">{errors.bankName.message}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-[#60736A] mb-1">
                 Account Holder Name
               </label>
               <input
                 type="text"
                 {...register("accountHolderName", { required: "Holder name is required" })}
                 placeholder="As per bank passbook"
-                className={`block w-full px-4 py-2.5 bg-slate-950/80 border ${
-                  errors.accountHolderName ? "border-rose-500" : "border-slate-800"
-                } placeholder-slate-600 text-slate-100 text-sm rounded-xl focus:outline-none focus:border-brand-500 transition-all`}
+                className={`block w-full px-4 py-2.5 bg-white border ${
+                  errors.accountHolderName ? "border-rose-500" : "border-[#D7E2DC]"
+                } placeholder-[#8A9A92] text-[#15231D] text-sm rounded-xl focus:outline-none focus:border-[#18A66A] focus:ring-1 focus:ring-[#18A66A] transition-all`}
               />
               {errors.accountHolderName && (
-                <p className="mt-1 text-xs text-rose-400 font-medium">{errors.accountHolderName.message}</p>
+                <p className="mt-1 text-xs text-rose-600 font-medium">{errors.accountHolderName.message}</p>
               )}
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#60736A] mb-1">
                   Account Number
                 </label>
                 <input
@@ -182,17 +182,17 @@ export default function BankAccountsPage() {
                     minLength: { value: 8, message: "At least 8 digits" },
                   })}
                   placeholder="9 to 18 digits"
-                  className={`block w-full px-4 py-2.5 bg-slate-950/80 border ${
-                    errors.accountNumber ? "border-rose-500" : "border-slate-800"
-                  } placeholder-slate-600 text-slate-100 text-sm rounded-xl focus:outline-none focus:border-brand-500 font-mono transition-all`}
+                  className={`block w-full px-4 py-2.5 bg-white border ${
+                    errors.accountNumber ? "border-rose-500" : "border-[#D7E2DC]"
+                  } placeholder-[#8A9A92] text-[#15231D] text-sm rounded-xl focus:outline-none focus:border-[#18A66A] focus:ring-1 focus:ring-[#18A66A] font-mono transition-all`}
                 />
                 {errors.accountNumber && (
-                  <p className="mt-1 text-xs text-rose-400 font-medium">{errors.accountNumber.message}</p>
+                  <p className="mt-1 text-xs text-rose-600 font-medium">{errors.accountNumber.message}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#60736A] mb-1">
                   IFSC Code
                 </label>
                 <input
@@ -205,24 +205,24 @@ export default function BankAccountsPage() {
                     },
                   })}
                   placeholder="HDFC0001234"
-                  className={`block w-full px-4 py-2.5 bg-slate-950/80 border ${
-                    errors.ifscCode ? "border-rose-500" : "border-slate-800"
-                  } placeholder-slate-600 text-slate-100 text-sm rounded-xl focus:outline-none focus:border-brand-500 uppercase font-mono transition-all`}
+                  className={`block w-full px-4 py-2.5 bg-white border ${
+                    errors.ifscCode ? "border-rose-500" : "border-[#D7E2DC]"
+                  } placeholder-[#8A9A92] text-[#15231D] text-sm rounded-xl focus:outline-none focus:border-[#18A66A] focus:ring-1 focus:ring-[#18A66A] uppercase font-mono transition-all`}
                 />
                 {errors.ifscCode && (
-                  <p className="mt-1 text-xs text-rose-400 font-medium">{errors.ifscCode.message}</p>
+                  <p className="mt-1 text-xs text-rose-600 font-medium">{errors.ifscCode.message}</p>
                 )}
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#60736A] mb-1">
                   Account Type
                 </label>
                 <select
                   {...register("accountType")}
-                  className="block w-full px-4 py-2.5 bg-slate-950/80 border border-slate-800 text-slate-100 text-sm rounded-xl focus:outline-none focus:border-brand-500"
+                  className="block w-full px-4 py-2.5 bg-white border border-[#D7E2DC] text-[#15231D] text-sm rounded-xl focus:outline-none focus:border-[#18A66A] cursor-pointer"
                 >
                   <option value="savings">Savings Account</option>
                   <option value="checking">Current / Checking Account</option>
@@ -230,11 +230,11 @@ export default function BankAccountsPage() {
               </div>
 
               <div className="flex items-center pt-5">
-                <label className="flex items-center gap-2 text-xs font-semibold text-slate-300 cursor-pointer">
+                <label className="flex items-center gap-2 text-xs font-semibold text-[#15231D] cursor-pointer">
                   <input
                     type="checkbox"
                     {...register("isPrimary")}
-                    className="w-4 h-4 rounded border-slate-800 text-brand-500 focus:ring-brand-500 bg-slate-950"
+                    className="w-4 h-4 rounded border-[#D7E2DC] text-[#18A66A] focus:ring-[#18A66A] bg-white cursor-pointer"
                   />
                   Set as Primary Mandate
                 </label>
@@ -244,7 +244,7 @@ export default function BankAccountsPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full py-3.5 bg-gradient-to-r from-brand-600 via-sky-600 to-brand-500 hover:from-brand-500 hover:to-sky-400 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-brand-600/20 disabled:opacity-50"
+              className="w-full py-3.5 bg-[#18A66A] hover:bg-[#159A63] text-white rounded-xl text-sm font-bold transition-all shadow-sm disabled:opacity-50 hover:scale-[1.01]"
             >
               {submitting ? "Linking Bank Mandate..." : "Link Bank Mandate"}
             </button>
@@ -254,17 +254,17 @@ export default function BankAccountsPage() {
         {/* Right List: Linked Accounts */}
         <div className="lg:col-span-7 space-y-6">
           <div className="flex items-center justify-between">
-            <h3 className="text-xl font-bold text-white font-outfit">Verified Bank Mandates</h3>
-            <span className="text-xs text-slate-400">Total Linked: {accounts.length}</span>
+            <h3 className="text-xl font-bold text-[#15231D] font-outfit">Verified Bank Mandates</h3>
+            <span className="text-xs font-semibold text-[#60736A]">Total Linked: {accounts.length}</span>
           </div>
 
           {loading ? (
-            <div className="p-8 text-center text-slate-400 text-sm">Loading bank list...</div>
+            <div className="p-8 text-center text-[#60736A] text-sm">Loading bank list...</div>
           ) : accounts.length === 0 ? (
-            <div className="p-12 rounded-3xl border border-slate-800/80 bg-slate-900/40 text-center space-y-3">
-              <FiHome className="w-10 h-10 text-slate-600 mx-auto" />
-              <p className="text-slate-300 font-semibold text-sm">No bank accounts linked yet.</p>
-              <p className="text-xs text-slate-500">
+            <div className="p-12 rounded-3xl border border-[#D7E2DC] bg-white text-center space-y-3 shadow-sm">
+              <FiHome className="w-10 h-10 text-[#8A9A92] mx-auto" />
+              <p className="text-[#15231D] font-semibold text-sm">No bank accounts linked yet.</p>
+              <p className="text-xs text-[#60736A]">
                 Link an account to start automated spare change round-ups.
               </p>
             </div>
@@ -275,18 +275,18 @@ export default function BankAccountsPage() {
                   key={acc._id}
                   className={`p-6 rounded-3xl border transition-all space-y-4 relative ${
                     acc.isPrimary
-                      ? "border-brand-500/50 bg-gradient-to-br from-brand-950/30 to-slate-900/80 shadow-lg shadow-brand-500/10"
-                      : "border-slate-800/80 bg-slate-900/50 hover:border-slate-700"
+                      ? "border-[#18A66A]/40 bg-[#E3F5ED]/40 shadow-sm"
+                      : "border-[#D7E2DC] bg-white hover:shadow-md"
                   }`}
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xl">
+                      <div className="w-10 h-10 rounded-2xl bg-[#F5F7F2] border border-[#D7E2DC] flex items-center justify-center text-xl shadow-2xs">
                         🏦
                       </div>
                       <div>
-                        <h4 className="font-bold text-white text-base">{acc.bankName}</h4>
-                        <span className="text-xs text-slate-400 font-mono">
+                        <h4 className="font-bold text-[#15231D] text-base">{acc.bankName}</h4>
+                        <span className="text-xs text-[#60736A] font-mono">
                           •••• {acc.accountNumber ? acc.accountNumber.slice(-4) : "1234"}
                         </span>
                       </div>
@@ -294,35 +294,35 @@ export default function BankAccountsPage() {
 
                     <button
                       onClick={() => handleDelete(acc._id)}
-                      className="p-2 text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 rounded-xl transition-all"
+                      className="p-2 text-[#8A9A92] hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all"
                       title="Unlink Bank Account"
                     >
                       <FiTrash2 className="w-4 h-4" />
                     </button>
                   </div>
 
-                  <div className="text-xs space-y-1 text-slate-400 border-t border-slate-800/80 pt-3">
+                  <div className="text-xs space-y-1 text-[#60736A] border-t border-[#D7E2DC] pt-3">
                     <div className="flex justify-between">
                       <span>Holder:</span>
-                      <span className="text-slate-200 font-semibold">{acc.accountHolderName}</span>
+                      <span className="text-[#15231D] font-semibold">{acc.accountHolderName}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>IFSC:</span>
-                      <span className="text-slate-200 font-mono">{acc.ifscCode}</span>
+                      <span className="text-[#15231D] font-mono">{acc.ifscCode}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Type:</span>
-                      <span className="text-slate-200 uppercase text-[10px] font-bold">{acc.accountType || "Savings"}</span>
+                      <span className="text-[#15231D] uppercase text-[10px] font-bold">{acc.accountType || "Savings"}</span>
                     </div>
                   </div>
 
                   <div className="flex justify-between items-center pt-2">
-                    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/30">
-                      <FiCheckCircle className="w-3 h-3" /> VERIFIED MANDATE
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-[#123B2A] bg-[#E3F5ED] px-2.5 py-1 rounded-full border border-[#18A66A]/30">
+                      <FiCheckCircle className="w-3 h-3 text-[#18A66A]" /> VERIFIED MANDATE
                     </span>
 
                     {acc.isPrimary && (
-                      <span className="text-[10px] font-extrabold text-brand-400 bg-brand-500/10 px-2.5 py-1 rounded-full border border-brand-500/30 uppercase tracking-wider">
+                      <span className="text-[10px] font-extrabold text-[#123B2A] bg-[#18A66A]/20 px-2.5 py-1 rounded-full border border-[#18A66A]/40 uppercase tracking-wider">
                         PRIMARY
                       </span>
                     )}

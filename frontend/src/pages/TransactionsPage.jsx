@@ -89,11 +89,11 @@ export default function TransactionsPage() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-10 space-y-10">
       <div className="space-y-2">
-        <h2 className="text-3xl font-extrabold tracking-tight text-white flex items-center gap-3">
-          <FiActivity className={isAdvisor ? "text-emerald-400" : "text-brand-500"} />
+        <h2 className="text-3xl font-extrabold tracking-tight text-[#15231D] flex items-center gap-3 font-outfit">
+          <FiActivity className="text-[#18A66A]" />
           {isAdvisor ? "Investor Client Transaction & Audit Monitor" : "Simulated Spends & Ledger"}
         </h2>
-        <p className="text-slate-400">
+        <p className="text-sm text-[#60736A]">
           {isAdvisor
             ? "Inspect investor client spend activities, categories, and automated round-up triggers to offer personalized advice."
             : "Simulate standard checking expenses (withdrawals) to test automated spare change calculations."}
@@ -103,50 +103,50 @@ export default function TransactionsPage() {
       <div className="grid lg:grid-cols-3 gap-8 items-start">
         {/* Left Column: Form for Investor OR Audit Panel for Advisor */}
         {isAdvisor ? (
-          <div className="lg:col-span-1 p-6 rounded-2xl border border-emerald-500/20 bg-slate-950/60 space-y-6">
+          <div className="lg:col-span-1 p-6 rounded-3xl border border-[#D7E2DC] bg-white shadow-sm space-y-6">
             <div className="space-y-2">
-              <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest px-2.5 py-1 bg-emerald-500/10 rounded-full border border-emerald-500/20 inline-flex items-center gap-1">
-                <FiShield /> SEBI Audit Suite
+              <span className="text-[10px] font-bold text-[#123B2A] uppercase tracking-widest px-2.5 py-1 bg-[#E3F5ED] rounded-full border border-[#18A66A]/30 inline-flex items-center gap-1">
+                <FiShield className="text-[#18A66A]" /> SEBI Audit Suite
               </span>
-              <h3 className="text-lg font-bold text-white">Client Activity Overview</h3>
+              <h3 className="text-lg font-bold text-[#15231D]">Client Activity Overview</h3>
             </div>
 
             <div className="space-y-4">
-              <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-850 space-y-1">
-                <span className="text-xs text-slate-400">Total Audited Records</span>
-                <h4 className="text-2xl font-mono font-bold text-white">{transactions.length}</h4>
+              <div className="p-4 rounded-xl bg-[#F5F7F2] border border-[#D7E2DC] space-y-1">
+                <span className="text-xs text-[#60736A]">Total Audited Records</span>
+                <h4 className="text-2xl font-mono font-bold text-[#15231D]">{transactions.length}</h4>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-850 space-y-1">
-                <span className="text-xs text-slate-400">Linked Client Banks</span>
-                <h4 className="text-2xl font-mono font-bold text-emerald-400">{accounts.length} Accounts</h4>
+              <div className="p-4 rounded-xl bg-[#F5F7F2] border border-[#D7E2DC] space-y-1">
+                <span className="text-xs text-[#60736A]">Linked Client Banks</span>
+                <h4 className="text-2xl font-mono font-bold text-[#159A63]">{accounts.length} Accounts</h4>
               </div>
 
-              <div className="p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/20 space-y-2">
-                <h5 className="text-xs font-bold text-emerald-300 flex items-center gap-1">
-                  <FiTrendingUp /> Advisor Guidance Note
+              <div className="p-4 rounded-xl bg-[#E3F5ED]/40 border border-[#18A66A]/30 space-y-2">
+                <h5 className="text-xs font-bold text-[#123B2A] flex items-center gap-1">
+                  <FiTrendingUp className="text-[#18A66A]" /> Advisor Guidance Note
                 </h5>
-                <p className="text-xs text-slate-400 leading-relaxed">
+                <p className="text-xs text-[#60736A] leading-relaxed">
                   Monitor frequent client spend categories (e.g. Dining, Shopping) to suggest adjusting round-up multipliers for faster goal achievement.
                 </p>
               </div>
             </div>
           </div>
         ) : (
-          <div className="lg:col-span-1 p-6 rounded-2xl border border-slate-900 bg-slate-950/40 space-y-6">
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
-              <FiPlusCircle className="text-brand-500" />
+          <div className="lg:col-span-1 p-6 rounded-3xl border border-[#D7E2DC] bg-white shadow-sm space-y-6">
+            <h3 className="text-lg font-bold text-[#15231D] flex items-center gap-2 font-outfit">
+              <FiPlusCircle className="text-[#18A66A]" />
               Log Spend/Deposit
             </h3>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#60736A] mb-1">
                   Transaction Type
                 </label>
                 <select
                   {...register("type")}
-                  className="block w-full px-3 py-2 bg-slate-900 border border-slate-800 text-slate-300 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-500 transition-all"
+                  className="block w-full px-3 py-2 bg-white border border-[#D7E2DC] text-[#15231D] text-sm rounded-xl focus:outline-none focus:border-[#18A66A] cursor-pointer"
                 >
                   <option value="withdrawal">Withdrawal (Triggers Round-Up)</option>
                   <option value="deposit">Deposit</option>
@@ -154,12 +154,12 @@ export default function TransactionsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#60736A] mb-1">
                   Select Connected Bank
                 </label>
                 <select
                   {...register("bankAccountId")}
-                  className="block w-full px-3 py-2 bg-slate-900 border border-slate-800 text-slate-300 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-500 transition-all"
+                  className="block w-full px-3 py-2 bg-white border border-[#D7E2DC] text-[#15231D] text-sm rounded-xl focus:outline-none focus:border-[#18A66A] cursor-pointer"
                 >
                   {accounts.length === 0 ? (
                     <option value="">Primary Sikka Account</option>
@@ -178,7 +178,7 @@ export default function TransactionsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#60736A] mb-1">
                   Amount (₹)
                 </label>
                 <input
@@ -189,39 +189,39 @@ export default function TransactionsPage() {
                     min: { value: 0.01, message: "Must be greater than ₹0.00" },
                   })}
                   placeholder="12.45"
-                  className={`block w-full px-3 py-2 bg-slate-900 border ${
-                    errors.amount ? "border-rose-500" : "border-slate-800"
-                  } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-transparent transition-all`}
+                  className={`block w-full px-3 py-2 bg-white border ${
+                    errors.amount ? "border-rose-500" : "border-[#D7E2DC]"
+                  } placeholder-[#8A9A92] text-[#15231D] text-sm rounded-xl focus:outline-none focus:border-[#18A66A] transition-all`}
                 />
                 {errors.amount && (
-                  <p className="mt-1 text-xs text-rose-500">{errors.amount.message}</p>
+                  <p className="mt-1 text-xs text-rose-600">{errors.amount.message}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#60736A] mb-1">
                   Merchant / Description
                 </label>
                 <input
                   type="text"
                   {...register("description", { required: "Description is required" })}
                   placeholder="e.g. Starbucks Coffee"
-                  className={`block w-full px-3 py-2 bg-slate-900 border ${
-                    errors.description ? "border-rose-500" : "border-slate-800"
-                  } placeholder-slate-600 text-slate-200 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-transparent transition-all`}
+                  className={`block w-full px-3 py-2 bg-white border ${
+                    errors.description ? "border-rose-500" : "border-[#D7E2DC]"
+                  } placeholder-[#8A9A92] text-[#15231D] text-sm rounded-xl focus:outline-none focus:border-[#18A66A] transition-all`}
                 />
                 {errors.description && (
-                  <p className="mt-1 text-xs text-rose-500">{errors.description.message}</p>
+                  <p className="mt-1 text-xs text-rose-600">{errors.description.message}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#60736A] mb-1">
                   Category
                 </label>
                 <select
                   {...register("category")}
-                  className="block w-full px-3 py-2 bg-slate-900 border border-slate-800 text-slate-300 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-500 transition-all"
+                  className="block w-full px-3 py-2 bg-white border border-[#D7E2DC] text-[#15231D] text-sm rounded-xl focus:outline-none focus:border-[#18A66A] cursor-pointer"
                 >
                   <option value="shopping">Shopping</option>
                   <option value="food">Food & Dining</option>
@@ -235,7 +235,7 @@ export default function TransactionsPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full flex justify-center items-center gap-2 py-2.5 px-4 border border-transparent rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 transition-all duration-300 disabled:opacity-50"
+                className="w-full flex justify-center items-center gap-2 py-3 px-4 rounded-xl text-sm font-bold text-white bg-[#18A66A] hover:bg-[#159A63] shadow-sm transition-all disabled:opacity-50"
               >
                 {submitting ? (
                   <>
@@ -252,27 +252,27 @@ export default function TransactionsPage() {
 
         {/* Recent Ledger Feed */}
         <div className="lg:col-span-2 space-y-6">
-          <h3 className="text-xl font-bold text-white">Recent Ledger Activities</h3>
+          <h3 className="text-xl font-bold text-[#15231D] font-outfit">Recent Ledger Activities</h3>
 
           {loading ? (
-            <div className="flex items-center gap-2 text-slate-400 text-sm">
-              <div className="w-4 h-4 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
+            <div className="flex items-center gap-2 text-[#60736A] text-sm">
+              <div className="w-4 h-4 border-2 border-[#18A66A] border-t-transparent rounded-full animate-spin" />
               <span>Loading ledger history...</span>
             </div>
           ) : transactions.length === 0 ? (
-            <div className="p-8 rounded-2xl border border-slate-900 bg-slate-950/20 text-center space-y-3">
-              <FiShoppingBag className="w-8 h-8 text-slate-600 mx-auto" />
-              <p className="text-slate-400 text-sm">No transaction records found.</p>
-              <p className="text-xs text-slate-600">
+            <div className="p-8 rounded-3xl border border-[#D7E2DC] bg-white text-center space-y-3 shadow-sm">
+              <FiShoppingBag className="w-8 h-8 text-[#8A9A92] mx-auto" />
+              <p className="text-[#15231D] font-semibold text-sm">No transaction records found.</p>
+              <p className="text-xs text-[#60736A]">
                 Log a Withdrawal above to verify auto spare change calculations.
               </p>
             </div>
           ) : (
-            <div className="overflow-hidden rounded-2xl border border-slate-900 bg-slate-950/40">
+            <div className="overflow-hidden rounded-3xl border border-[#D7E2DC] bg-white shadow-sm">
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse text-sm">
                   <thead>
-                    <tr className="border-b border-slate-900 text-slate-500 text-xs font-bold uppercase tracking-wider bg-slate-950/80">
+                    <tr className="border-b border-[#D7E2DC] text-[#60736A] text-xs font-bold uppercase tracking-wider bg-[#F5F7F2]">
                       <th className="py-4 px-6">Description</th>
                       <th className="py-4 px-6">Category</th>
                       <th className="py-4 px-6">Type</th>
@@ -280,40 +280,40 @@ export default function TransactionsPage() {
                       <th className="py-4 px-6">Round-up</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-900 text-slate-300">
+                  <tbody className="divide-y divide-[#D7E2DC] text-[#15231D]">
                     {transactions.map((tx) => (
-                      <tr key={tx.id} className="hover:bg-slate-900/20 transition-all">
+                      <tr key={tx.id} className="hover:bg-[#F5F7F2]/60 transition-all">
                         <td className="py-4 px-6">
-                          <div className="font-semibold text-white">{tx.description}</div>
-                          <div className="text-[10px] text-slate-500 mt-0.5">
+                          <div className="font-semibold text-[#15231D]">{tx.description}</div>
+                          <div className="text-[10px] text-[#8A9A92] mt-0.5">
                             {new Date(tx.createdAt).toLocaleString()}
                           </div>
                         </td>
-                        <td className="py-4 px-6 capitalize text-xs">{tx.category}</td>
+                        <td className="py-4 px-6 capitalize text-xs text-[#60736A]">{tx.category}</td>
                         <td className="py-4 px-6">
                           <span
                             className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full ${
                               tx.type === "withdrawal"
-                                ? "bg-rose-500/10 text-rose-400"
-                                : "bg-green-500/10 text-green-400"
+                                ? "bg-rose-50 text-rose-700 border border-rose-200"
+                                : "bg-emerald-50 text-emerald-800 border border-emerald-200"
                             }`}
                           >
                             {tx.type === "withdrawal" ? <FiArrowUpRight /> : <FiArrowDownLeft />}
                             {tx.type.toUpperCase()}
                           </span>
                         </td>
-                        <td className="py-4 px-6 font-mono font-bold text-white">
+                        <td className="py-4 px-6 font-mono font-bold text-[#15231D]">
                           ₹{parseAmount(tx.amount).toFixed(2)}
                         </td>
                         <td className="py-4 px-6">
                           {tx.isRoundUpProcessed ? (
-                            <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-brand-500/10 border border-brand-500/20 text-brand-400">
+                            <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#E3F5ED] border border-[#18A66A]/30 text-[#123B2A]">
                               PROCESSED
                             </span>
                           ) : tx.type === "withdrawal" ? (
-                            <span className="text-xs text-slate-600">Pending</span>
+                            <span className="text-xs text-[#8A9A92]">Pending</span>
                           ) : (
-                            <span className="text-slate-600">—</span>
+                            <span className="text-[#8A9A92]">—</span>
                           )}
                         </td>
                       </tr>

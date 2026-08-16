@@ -46,62 +46,62 @@ export default function RegisterPage() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-500/10 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative z-10">
-        {/* Left Feature Showcase */}
-        <div className="hidden md:flex flex-col justify-between space-y-6 p-8 rounded-3xl border border-slate-800/80 bg-slate-900/40 backdrop-blur-xl shadow-2xl">
+        {/* Left Feature Showcase - Rich Deep Forest Green Component */}
+        <div className="hidden md:flex flex-col justify-between space-y-6 p-8 rounded-3xl border border-[#1B4D38] bg-[#123B2A] shadow-xl text-white">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-4">
-              <FiShield className="w-3.5 h-3.5" /> Start In Under 60 Seconds
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1B4D38] border border-[#55CFA0]/40 text-[#55CFA0] text-xs font-bold uppercase tracking-wider mb-4">
+              <FiShield className="w-3.5 h-3.5 text-[#55CFA0]" /> Start In Under 60 Seconds
             </div>
             <h1 className="text-3xl font-extrabold tracking-tight text-white font-outfit">
               Join Thousands Of <br />
-              <span className="gradient-text-emerald">Smart Micro-Investors.</span>
+              <span className="text-[#55CFA0]">Smart Micro-Investors.</span>
             </h1>
-            <p className="mt-3 text-sm text-slate-400 leading-relaxed">
+            <p className="mt-3 text-sm text-[#8A9A92] leading-relaxed">
               Automate your spare change savings, track target goals, and receive customized portfolio guidance.
             </p>
           </div>
 
-          <div className="space-y-4 pt-4 border-t border-slate-800/80">
+          <div className="space-y-4 pt-4 border-t border-[#1B4D38]">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-brand-500/10 text-brand-400">
-                <FiZap className="w-4 h-4" />
+              <div className="p-2 rounded-lg bg-[#1B4D38] text-[#55CFA0] border border-[#55CFA0]/30">
+                <FiZap className="w-4 h-4 text-[#55CFA0]" />
               </div>
-              <span className="text-xs font-semibold text-slate-300">Automated UPI & Bank Round-ups</span>
+              <span className="text-xs font-semibold text-white">Automated UPI & Bank Round-ups</span>
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400">
-                <FiTrendingUp className="w-4 h-4" />
+              <div className="p-2 rounded-lg bg-[#1B4D38] text-[#55CFA0] border border-[#55CFA0]/30">
+                <FiTrendingUp className="w-4 h-4 text-[#55CFA0]" />
               </div>
-              <span className="text-xs font-semibold text-slate-300">Risk-Adjusted Algo Portfolios</span>
+              <span className="text-xs font-semibold text-white">Risk-Adjusted Algo Portfolios</span>
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-amber-500/10 text-amber-400">
-                <FiShield className="w-4 h-4" />
+              <div className="p-2 rounded-lg bg-[#1B4D38] text-[#55CFA0] border border-[#55CFA0]/30">
+                <FiShield className="w-4 h-4 text-[#55CFA0]" />
               </div>
-              <span className="text-xs font-semibold text-slate-300">Bank-Grade 256-Bit Security</span>
+              <span className="text-xs font-semibold text-white">Bank-Grade 256-Bit Security</span>
             </div>
           </div>
 
-          <div className="pt-4 border-t border-slate-800/80">
-            <div className="p-3 rounded-2xl bg-slate-950/60 border border-slate-800 flex items-center justify-between text-xs">
-              <span className="text-slate-400">Average Annual Roundup Growth</span>
-              <span className="font-extrabold text-emerald-400">+14.8% CAGR</span>
+          <div className="pt-4 border-t border-[#1B4D38]">
+            <div className="p-3 rounded-2xl bg-[#1B4D38] border border-[#55CFA0]/30 flex items-center justify-between text-xs">
+              <span className="text-[#8A9A92]">Average Annual Roundup Growth</span>
+              <span className="font-extrabold text-[#55CFA0]">+14.8% CAGR</span>
             </div>
           </div>
         </div>
 
         {/* Right Form Card */}
-        <div className="p-8 rounded-3xl border border-slate-800/90 bg-slate-950/80 backdrop-blur-xl shadow-2xl space-y-6">
+        <div className="p-8 rounded-3xl border border-[#D7E2DC] bg-white shadow-sm space-y-6">
           <div className="text-center md:text-left">
-            <div className="mx-auto md:mx-0 w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-4 shadow-lg shadow-emerald-500/10">
-              <FiUser className="w-6 h-6" />
+            <div className="mx-auto md:mx-0 w-12 h-12 rounded-2xl bg-[#E3F5ED] border border-[#D7E2DC] flex items-center justify-center text-[#18A66A] mb-4 shadow-sm">
+              <FiUser className="w-6 h-6 text-[#18A66A]" />
             </div>
-            <h2 className="text-2xl font-bold tracking-tight text-white font-outfit">
+            <h2 className="text-2xl font-bold tracking-tight text-[#15231D] font-outfit">
               Create Free Account
             </h2>
-            <p className="mt-1 text-xs text-slate-400">
+            <p className="mt-1 text-xs text-[#60736A]">
               Fill in your details below to activate your Sikka portfolio
             </p>
           </div>
@@ -109,7 +109,7 @@ export default function RegisterPage() {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#60736A] mb-1.5">
                   First Name
                 </label>
                 <input
@@ -121,20 +121,20 @@ export default function RegisterPage() {
                       message: "Only letters allowed",
                     },
                   })}
-                  className={`block w-full px-3.5 py-2.5 bg-slate-900/90 border ${
-                    errors.firstName ? "border-rose-500" : "border-slate-800"
-                  } placeholder-slate-500 text-slate-100 text-sm rounded-xl focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all`}
+                  className={`block w-full px-3.5 py-2.5 bg-white border ${
+                    errors.firstName ? "border-rose-500" : "border-[#D7E2DC]"
+                  } placeholder-[#8A9A92] text-[#15231D] text-sm rounded-xl focus:outline-none focus:border-[#18A66A] focus:ring-1 focus:ring-[#18A66A] transition-all`}
                   placeholder="Aman"
                 />
                 {errors.firstName && (
-                  <p className="mt-1 text-xs text-rose-400 font-medium">
+                  <p className="mt-1 text-xs text-rose-600 font-medium">
                     {errors.firstName.message}
                   </p>
                 )}
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#60736A] mb-1.5">
                   Last Name
                 </label>
                 <input
@@ -146,13 +146,13 @@ export default function RegisterPage() {
                       message: "Only letters allowed",
                     },
                   })}
-                  className={`block w-full px-3.5 py-2.5 bg-slate-900/90 border ${
-                    errors.lastName ? "border-rose-500" : "border-slate-800"
-                  } placeholder-slate-500 text-slate-100 text-sm rounded-xl focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all`}
+                  className={`block w-full px-3.5 py-2.5 bg-white border ${
+                    errors.lastName ? "border-rose-500" : "border-[#D7E2DC]"
+                  } placeholder-[#8A9A92] text-[#15231D] text-sm rounded-xl focus:outline-none focus:border-[#18A66A] focus:ring-1 focus:ring-[#18A66A] transition-all`}
                   placeholder="Sharma"
                 />
                 {errors.lastName && (
-                  <p className="mt-1 text-xs text-rose-400 font-medium">
+                  <p className="mt-1 text-xs text-rose-600 font-medium">
                     {errors.lastName.message}
                   </p>
                 )}
@@ -160,11 +160,11 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-[#60736A] mb-1.5">
                 Email Address
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8A9A92]">
                   <FiMail className="w-4 h-4" />
                 </div>
                 <input
@@ -176,25 +176,25 @@ export default function RegisterPage() {
                       message: "Invalid email format",
                     },
                   })}
-                  className={`block w-full pl-10 pr-4 py-2.5 bg-slate-900/90 border ${
-                    errors.email ? "border-rose-500" : "border-slate-800"
-                  } placeholder-slate-500 text-slate-100 text-sm rounded-xl focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all`}
+                  className={`block w-full pl-10 pr-4 py-2.5 bg-white border ${
+                    errors.email ? "border-rose-500" : "border-[#D7E2DC]"
+                  } placeholder-[#8A9A92] text-[#15231D] text-sm rounded-xl focus:outline-none focus:border-[#18A66A] focus:ring-1 focus:ring-[#18A66A] transition-all`}
                   placeholder="name@example.com"
                 />
               </div>
               {errors.email && (
-                <p className="mt-1 text-xs text-rose-400 font-medium">
+                <p className="mt-1 text-xs text-rose-600 font-medium">
                   {errors.email.message}
                 </p>
               )}
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-[#60736A] mb-1.5">
                 Password
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8A9A92]">
                   <FiLock className="w-4 h-4" />
                 </div>
                 <input
@@ -206,30 +206,30 @@ export default function RegisterPage() {
                       message: "Must be at least 6 characters",
                     },
                   })}
-                  className={`block w-full pl-10 pr-4 py-2.5 bg-slate-900/90 border ${
-                    errors.password ? "border-rose-500" : "border-slate-800"
-                  } placeholder-slate-500 text-slate-100 text-sm rounded-xl focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all`}
+                  className={`block w-full pl-10 pr-4 py-2.5 bg-white border ${
+                    errors.password ? "border-rose-500" : "border-[#D7E2DC]"
+                  } placeholder-[#8A9A92] text-[#15231D] text-sm rounded-xl focus:outline-none focus:border-[#18A66A] focus:ring-1 focus:ring-[#18A66A] transition-all`}
                   placeholder="••••••••"
                 />
               </div>
               {errors.password && (
-                <p className="mt-1 text-xs text-rose-400 font-medium">
+                <p className="mt-1 text-xs text-rose-600 font-medium">
                   {errors.password.message}
                 </p>
               )}
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-[#60736A] mb-1.5">
                 Account Type
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8A9A92]">
                   <FiBriefcase className="w-4 h-4" />
                 </div>
                 <select
                   {...register("role")}
-                  className="block w-full pl-10 pr-4 py-2.5 bg-slate-900/90 border border-slate-800 text-slate-100 text-sm rounded-xl focus:outline-none focus:border-brand-500 cursor-pointer"
+                  className="block w-full pl-10 pr-4 py-2.5 bg-white border border-[#D7E2DC] text-[#15231D] text-sm rounded-xl focus:outline-none focus:border-[#18A66A] cursor-pointer"
                 >
                   <option value="investor">Investor Account</option>
                   <option value="advisor">Financial Advisor Account</option>
@@ -240,7 +240,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex justify-center items-center gap-2 py-3.5 px-4 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-emerald-600 via-teal-600 to-brand-600 hover:from-emerald-500 hover:to-brand-500 focus:outline-none shadow-lg shadow-emerald-600/20 transition-all duration-300 disabled:opacity-50 hover:scale-[1.01]"
+              className="w-full flex justify-center items-center gap-2 py-3.5 px-4 rounded-xl text-sm font-bold text-white bg-[#18A66A] hover:bg-[#159A63] focus:outline-none shadow-sm transition-all duration-200 disabled:opacity-50 hover:scale-[1.01]"
             >
               {loading ? (
                 <>
