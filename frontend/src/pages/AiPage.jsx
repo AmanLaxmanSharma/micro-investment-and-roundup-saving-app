@@ -73,13 +73,13 @@ export default function AiPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 h-[calc(100vh-140px)] flex flex-col justify-between gap-6">
       {/* Page Header */}
-      <div className="flex items-center justify-between border-b border-[#D7E2DC] pb-4">
+      <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-4">
         <div className="space-y-1">
-          <h2 className="text-2xl font-extrabold tracking-tight text-[#15231D] flex items-center gap-3 font-outfit">
-            <FiCpu className="text-[#18A66A] animate-pulse" />
+          <h2 className="text-2xl font-extrabold tracking-tight text-[#123B5D] flex items-center gap-3 font-outfit">
+            <FiCpu className="text-[#16A36A] animate-pulse" />
             Sikka AI Financial Assistant
           </h2>
-          <p className="text-xs text-[#60736A]">
+          <p className="text-xs text-[#64748B]">
             Real-time advisory trained on your wallet details, portfolios, and goals.
           </p>
         </div>
@@ -100,11 +100,11 @@ export default function AiPage() {
               <div
                 className={`p-2 rounded-xl text-sm shrink-0 border ${
                   isAi
-                    ? "bg-[#E3F5ED] border-[#18A66A]/30 text-[#123B2A]"
-                    : "bg-white border-[#D7E2DC] text-[#15231D]"
+                    ? "bg-[#DCFCE7] border-[#BBF7D0] text-[#123B5D]"
+                    : "bg-[#123B5D] border-[#0D2A42] text-white"
                 }`}
               >
-                {isAi ? <FiCpu /> : <FiUser />}
+                {isAi ? <FiCpu className="text-[#16A36A]" /> : <FiUser />}
               </div>
 
               {/* Message Bubble */}
@@ -112,13 +112,13 @@ export default function AiPage() {
                 <div
                   className={`p-4 rounded-2xl border text-sm leading-relaxed whitespace-pre-wrap ${
                     isAi
-                      ? "bg-white border-[#D7E2DC] text-[#15231D] shadow-sm"
-                      : "bg-[#18A66A] hover:bg-[#159A63] border-transparent text-white shadow-sm"
+                      ? "bg-white border-[#E2E8F0] text-[#1F2937] shadow-sm"
+                      : "bg-[#16A36A] hover:bg-[#138959] border-transparent text-white shadow-sm"
                   }`}
                 >
                   {msg.text}
                 </div>
-                <div className="text-[9px] text-[#8A9A92] font-mono text-right pr-2">
+                <div className="text-[9px] text-[#94A3B8] font-mono text-right pr-2">
                   {new Date(msg.time).toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
@@ -132,13 +132,13 @@ export default function AiPage() {
         {/* Typing loading state */}
         {loading && (
           <div className="flex items-center gap-3.5 mr-auto max-w-[85%]">
-            <div className="p-2 rounded-xl border bg-[#E3F5ED] border-[#18A66A]/30 text-[#123B2A] shrink-0">
-              <FiCpu className="animate-spin text-[#18A66A]" />
+            <div className="p-2 rounded-xl border bg-[#DCFCE7] border-[#BBF7D0] text-[#123B5D] shrink-0">
+              <FiCpu className="animate-spin text-[#16A36A]" />
             </div>
-            <div className="p-4 rounded-2xl border bg-white border-[#D7E2DC] flex items-center gap-1.5 py-3 shadow-sm">
-              <span className="w-1.5 h-1.5 bg-[#18A66A] rounded-full animate-bounce delay-100" />
-              <span className="w-1.5 h-1.5 bg-[#18A66A] rounded-full animate-bounce delay-200" />
-              <span className="w-1.5 h-1.5 bg-[#18A66A] rounded-full animate-bounce delay-300" />
+            <div className="p-4 rounded-2xl border bg-white border-[#E2E8F0] flex items-center gap-1.5 py-3 shadow-sm">
+              <span className="w-1.5 h-1.5 bg-[#16A36A] rounded-full animate-bounce delay-100" />
+              <span className="w-1.5 h-1.5 bg-[#16A36A] rounded-full animate-bounce delay-200" />
+              <span className="w-1.5 h-1.5 bg-[#16A36A] rounded-full animate-bounce delay-300" />
             </div>
           </div>
         )}
@@ -147,7 +147,7 @@ export default function AiPage() {
       </div>
 
       {/* Suggestion Chips and Send Form Area */}
-      <div className="space-y-4 pt-4 border-t border-[#D7E2DC]">
+      <div className="space-y-4 pt-4 border-t border-[#E2E8F0]">
         {/* Suggestion chips */}
         {messages.length === 1 && !loading && (
           <div className="flex flex-wrap gap-2.5">
@@ -155,7 +155,7 @@ export default function AiPage() {
               <button
                 key={idx}
                 onClick={() => handleSend(chip.text)}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-[#D7E2DC] hover:border-[#18A66A] bg-white hover:bg-[#E3F5ED] text-xs font-semibold text-[#15231D] transition-all shadow-2xs"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-[#E2E8F0] hover:border-[#16A36A] bg-white hover:bg-[#DCFCE7] text-xs font-semibold text-[#1F2937] transition-all shadow-2xs"
               >
                 {chip.icon}
                 <span>{chip.text}</span>
@@ -172,12 +172,12 @@ export default function AiPage() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyPress}
             placeholder="Ask Sikka AI about goals, risk appetites, round-ups..."
-            className="flex-grow px-4 py-3 bg-white border border-[#D7E2DC] placeholder-[#8A9A92] text-[#15231D] text-sm rounded-2xl focus:outline-none focus:border-[#18A66A] focus:ring-1 focus:ring-[#18A66A] transition-all resize-none max-h-24 shadow-sm"
+            className="flex-grow px-4 py-3 bg-white border border-[#E2E8F0] placeholder-[#94A3B8] text-[#1F2937] text-sm rounded-2xl focus:outline-none focus:border-[#16A36A] focus:ring-1 focus:ring-[#16A36A] transition-all resize-none max-h-24 shadow-sm"
           />
           <button
             onClick={() => handleSend()}
             disabled={loading || !input.trim()}
-            className="p-3.5 bg-[#18A66A] hover:bg-[#159A63] text-white rounded-2xl transition-all disabled:opacity-50 flex items-center justify-center shrink-0 self-end shadow-sm"
+            className="p-3.5 bg-[#16A36A] hover:bg-[#138959] text-white rounded-2xl transition-all disabled:opacity-50 flex items-center justify-center shrink-0 self-end shadow-sm"
             title="Send Message"
           >
             <FiSend className="w-4 h-4" />

@@ -5,72 +5,92 @@ export default {
     extend: {
       colors: {
         fintech: {
-          page: "#F5F7F2",       /* Warm green-tinted off-white */
-          card: "#FFFFFF",       /* Main card background */
-          dark: "#123B2A",       /* Primary dark surface - Deep forest green */
-          dark2: "#1B4D38",      /* Secondary dark surface */
-          primary: "#18A66A",    /* Primary brand green */
-          mintBright: "#55CFA0", /* Bright mint accent */
-          mintSoft: "#E3F5ED",   /* Soft mint background */
-          textMain: "#15231D",   /* Main text */
-          textSec: "#60736A",    /* Secondary text */
-          textMuted: "#8A9A92",  /* Muted text */
-          border: "#D7E2DC",     /* Borders */
-          blue: "#4778D9",       /* Blue info accent */
-          purple: "#7658C9",     /* Purple accent */
-          warning: "#D69A35",    /* Warning / Gold */
-          growth: "#159A63",     /* Growth / Positive */
+          page: "#F5F7FA",       /* Clean off-white background */
+          card: "#FFFFFF",       /* Card and component background */
+          navy: "#123B5D",       /* Primary brand Deep Navy Blue */
+          dark: "#123B5D",       /* Deep Navy Blue surface */
+          dark2: "#0D2A42",      /* Darker navy secondary surface */
+          navyLight: "#1E5380",  /* Lighter navy highlight */
+          primary: "#123B5D",    /* Primary brand color */
+          growth: "#16A36A",     /* Secondary / Growth color Green */
+          secondary: "#16A36A",  /* Secondary action color */
+          mintBright: "#16A36A", /* Positive / CTA green */
+          mintSoft: "#DCFCE7",   /* Light green background for success states */
+          textMain: "#1F2937",   /* Primary text */
+          textSec: "#64748B",    /* Secondary text */
+          textMuted: "#94A3B8",  /* Muted text */
+          border: "#E2E8F0",     /* Border color */
+          positive: "#16A36A",   /* Positive financial indicator */
+          negative: "#DC2626",   /* Negative financial indicator */
+          danger: "#DC2626",     /* Danger / Negative */
+          blue: "#3B82F6",       /* Blue info accent */
+          purple: "#8B5CF6",     /* Purple accent */
+          warning: "#D97706",    /* Warning / Gold */
+        },
+        navy: {
+          50: "#F0F6FA",
+          100: "#E1EDF5",
+          200: "#B8D4E7",
+          300: "#85B5D5",
+          400: "#4F8FBD",
+          500: "#123B5D",
+          600: "#0F3250",
+          700: "#0D2A42",
+          800: "#091F31",
+          900: "#061521",
+          950: "#030B12",
         },
         brand: {
-          50: "#F5F7F2",
-          100: "#E3F5ED",
-          200: "#C4EAD9",
-          300: "#8ED9B9",
-          400: "#55CFA0",
-          500: "#18A66A",
-          600: "#159A63",
-          700: "#1B4D38",
-          800: "#123B2A",
-          900: "#0E2E21",
-          950: "#081C14",
+          50: "#F5F7FA",
+          100: "#DCFCE7",
+          200: "#BBF7D0",
+          300: "#86EFAC",
+          400: "#4ADE80",
+          500: "#16A36A",
+          600: "#138959",
+          700: "#1E5380",
+          800: "#123B5D",
+          900: "#0D2A42",
+          950: "#081C2E",
         },
         emerald: {
-          50: "#F5F7F2",
-          100: "#E3F5ED",
-          200: "#C4EAD9",
-          300: "#8ED9B9",
-          400: "#55CFA0",
-          500: "#18A66A",
-          600: "#159A63",
-          700: "#1B4D38",
-          800: "#123B2A",
-          900: "#0E2E21",
-          950: "#081C14",
+          50: "#F0FDF4",
+          100: "#DCFCE7",
+          200: "#BBF7D0",
+          300: "#86EFAC",
+          400: "#4ADE80",
+          500: "#16A36A",
+          600: "#138959",
+          700: "#15803D",
+          800: "#166534",
+          900: "#14532D",
+          950: "#052E16",
         },
         mint: {
-          50: "#FAFCFB",
-          100: "#E3F5ED",
-          200: "#C4EAD9",
-          300: "#8ED9B9",
-          400: "#55CFA0",
-          500: "#18A66A",
-          600: "#123B2A",
+          50: "#F0FDF4",
+          100: "#DCFCE7",
+          200: "#BBF7D0",
+          300: "#86EFAC",
+          400: "#4ADE80",
+          500: "#16A36A",
+          600: "#123B5D",
         },
         dark: {
-          950: "#F5F7F2",
-          900: "#FFFFFF",
-          850: "#F8FAF6",
-          800: "#E3F5ED",
-          700: "#D7E2DC",
-          600: "#18A66A",
+          950: "#081C2E",
+          900: "#0D2A42",
+          850: "#123B5D",
+          800: "#1E5380",
+          700: "#E2E8F0",
+          600: "#16A36A",
         }
       },
       boxShadow: {
-        'glow-brand': '0 4px 20px -2px rgba(24, 166, 106, 0.15)',
-        'glow-emerald': '0 4px 20px -2px rgba(85, 207, 160, 0.2)',
-        'glow-mint': '0 4px 20px -2px rgba(227, 245, 237, 0.5)',
-        'glass': '0 4px 20px 0 rgba(18, 59, 42, 0.06)',
-        'card-light': '0 1px 3px 0 rgba(21, 35, 29, 0.05), 0 1px 2px 0 rgba(21, 35, 29, 0.02)',
+        'glow-brand': '0 4px 20px -2px rgba(18, 59, 93, 0.15)',
+        'glow-emerald': '0 4px 20px -2px rgba(22, 163, 106, 0.2)',
+        'glow-growth': '0 4px 20px -2px rgba(22, 163, 106, 0.25)',
+        'glow-mint': '0 4px 20px -2px rgba(220, 252, 231, 0.6)',
+        'glass': '0 4px 20px 0 rgba(18, 59, 93, 0.06)',
+        'card-light': '0 1px 3px 0 rgba(31, 41, 55, 0.05), 0 1px 2px 0 rgba(31, 41, 55, 0.03)',
       },
       animation: {
         'float': 'float 6s ease-in-out infinite',

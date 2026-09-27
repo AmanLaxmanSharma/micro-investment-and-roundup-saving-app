@@ -8,9 +8,9 @@
   }
 
   body {
-    @apply bg-[#F5F7F2] text-[#15231D] antialiased min-h-screen selection:bg-[#18A66A] selection:text-white;
+    @apply bg-[#F5F7FA] text-[#1F2937] antialiased min-h-screen selection:bg-[#16A36A] selection:text-white;
     font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: #F5F7F2;
+    background-color: #F5F7FA;
   }
 
   /* Custom sleek scrollbar */
@@ -19,54 +19,58 @@
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #F5F7F2;
+    background: #F5F7FA;
   }
   ::-webkit-scrollbar-thumb {
-    background: #8A9A92;
+    background: #94A3B8;
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #18A66A;
+    background: #123B5D;
   }
 }
 
 @layer utilities {
   .glass-panel {
-    @apply bg-white border border-[#D7E2DC] shadow-card-light;
+    @apply bg-white border border-[#E2E8F0] shadow-card-light;
   }
   
   .glass-card {
-    @apply bg-white border border-[#D7E2DC] rounded-2xl shadow-card-light transition-all duration-200;
+    @apply bg-white border border-[#E2E8F0] rounded-2xl shadow-card-light transition-all duration-200;
   }
 
   .glass-card-hover {
-    @apply glass-card hover:border-[#18A66A]/40 hover:shadow-md hover:-translate-y-0.5;
+    @apply glass-card hover:border-[#16A36A]/40 hover:shadow-md hover:-translate-y-0.5;
   }
 
   .glass-input {
-    @apply bg-white border border-[#D7E2DC] rounded-xl px-4 py-2.5 text-[#15231D] placeholder-[#8A9A92] focus:outline-none focus:border-[#18A66A] focus:ring-1 focus:ring-[#18A66A] transition-all;
+    @apply bg-white border border-[#E2E8F0] rounded-xl px-4 py-2.5 text-[#1F2937] placeholder-[#94A3B8] focus:outline-none focus:border-[#16A36A] focus:ring-1 focus:ring-[#16A36A] transition-all;
   }
 
   .gradient-text-brand {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#123B2A] via-[#18A66A] to-[#159A63];
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#123B5D] via-[#1E5380] to-[#16A36A];
   }
 
   .gradient-text-emerald {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#18A66A] to-[#55CFA0];
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#123B5D] to-[#16A36A];
+  }
+
+  .gradient-text-growth {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#16A36A] to-[#10B981];
   }
 
   .gradient-text-gold {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#D69A35] via-[#B88020] to-[#8C5D0D];
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#D97706] via-[#B45309] to-[#92400E];
   }
 
-  /* Metallic card mockups - Deep forest green & warm gold */
+  /* Metallic card mockups - Deep Navy & Premium accents */
   .metallic-card-silver {
-    background: linear-gradient(135deg, #123B2A 0%, #1B4D38 100%);
-    border: 1px solid rgba(215, 226, 220, 0.2);
+    background: linear-gradient(135deg, #123B5D 0%, #0D2A42 100%);
+    border: 1px solid rgba(226, 232, 240, 0.25);
   }
 
   .metallic-card-gold {
-    background: linear-gradient(135deg, #1B4D38 0%, #123B2A 100%);
-    border: 1px solid rgba(85, 207, 160, 0.3);
+    background: linear-gradient(135deg, #0D2A42 0%, #123B5D 100%);
+    border: 1px solid rgba(22, 163, 106, 0.35);
   }
 }
