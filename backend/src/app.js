@@ -20,6 +20,7 @@ import messageRoutes from "./routes/messageRoutes.js";
 import marketRoutes from "./routes/marketRoutes.js";
 import { connectDB } from "./config/db.js";
 import { seedPortfolios } from "./utils/portfolioStore.js";
+import { seedAdvisors } from "./utils/authStore.js";
 
 const app = express();
 
@@ -99,6 +100,7 @@ app.use((err, req, res, next) => {
 
 connectDB().then(() => {
   seedPortfolios();
+  seedAdvisors();
 });
 
 export default app;

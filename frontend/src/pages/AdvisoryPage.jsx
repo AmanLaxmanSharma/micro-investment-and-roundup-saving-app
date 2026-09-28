@@ -9,6 +9,8 @@ import {
   FiInbox,
   FiActivity,
   FiChevronsRight,
+  FiAward,
+  FiCheckCircle,
 } from "react-icons/fi";
 
 export default function AdvisoryPage() {
@@ -22,10 +24,40 @@ export default function AdvisoryPage() {
   const [sending, setSending] = useState(false);
   const scrollRef = useRef(null);
 
+  const getContactDisplayName = (contact) => {
+    if (!contact) return "Financial Advisor";
+    if (contact.name && typeof contact.name === "string" && contact.name.trim().length > 0) {
+      return contact.name;
+    }
+    const fullName = `${contact.firstName || ""} ${contact.lastName || ""}`.trim();
+    if (fullName.length > 0) return fullName;
+    if (contact.email) {
+      const emailPrefix = contact.email.split("@")[0];
+      return emailPrefix
+        .split(".")
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" ");
+    }
+    return contact.role === "advisor" ? "Certified Sikka Advisor" : "Investor Client";
+  };
+
+  const getInitials = (contact) => {
+    const name = getContactDisplayName(contact);
+    const parts = name.replace(/[^a-zA-Z\s]/g, "").trim().split(/\s+/);
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return (name.slice(0, 2) || "AD").toUpperCase();
+  };
+
   const fetchContacts = async () => {
     try {
       const response = await api.get("/api/messages/contacts");
-      setContacts(response.data.data.contacts || []);
+      const fetched = response.data.data.contacts || [];
+      setContacts(fetched);
+      if (fetched.length > 0 && !activeContact) {
+        setActiveContact(fetched[0]);
+      }
     } catch (err) {
       toast.error("Unable to load contacts.");
     } finally {
@@ -119,7 +151,7 @@ export default function AdvisoryPage() {
       {/* Main Container */}
       <div className="flex-grow flex border border-[#E2E8F0] rounded-3xl bg-white shadow-sm overflow-hidden min-h-[450px]">
         {/* Sidebar Contacts List */}
-        <div className="w-80 border-r border-[#E2E8F0] bg-[#F5F7FA] flex flex-col">
+        <div className="w-80 border-r border-[#E2E8F0] bg-[#F5F7FA] flex flex-col shrink-0">
           <div className="p-4 border-b border-[#E2E8F0] bg-white flex justify-between items-center">
             <span className="text-xs font-bold text-[#64748B] uppercase tracking-wider">
               {isAdvisor ? "Assigned Investor Clients" : "Certified Advisors"}
@@ -141,27 +173,46 @@ export default function AdvisoryPage() {
               </div>
             ) : (
               contacts.map((contact) => {
-                const isSelected = activeContact?.id === contact.id || activeContact?._id === contact._id;
+                const isSelected =
+                  activeContact?.id === contact.id || activeContact?._id === contact._id;
+                const displayName = getContactDisplayName(contact);
+                const initials = getInitials(contact);
+
                 return (
                   <button
                     key={contact._id || contact.id}
                     onClick={() => setActiveContact(contact)}
                     className={`w-full p-4 text-left flex items-center gap-3 transition-all ${
                       isSelected
-                        ? "bg-[#DCFCE7]/40 border-l-4 border-l-[#16A36A]"
+                        ? "bg-[#DCFCE7]/50 border-l-4 border-l-[#16A36A]"
                         : "hover:bg-white"
                     }`}
                   >
-                    <div className={`p-2 border rounded-xl text-sm shrink-0 ${
-                      isSelected ? "bg-white border-[#16A36A]/30 text-[#16A36A]" : "bg-slate-100 border-slate-200 text-[#64748B]"
-                    }`}>
-                      <FiUser />
+                    <div
+                      className={`w-10 h-10 rounded-2xl flex items-center justify-center font-bold text-xs shrink-0 border transition-all ${
+                        isSelected
+                          ? "bg-[#16A36A] text-white border-[#16A36A] shadow-sm"
+                          : "bg-white text-[#123B5D] border-[#E2E8F0]"
+                      }`}
+                    >
+                      {initials}
                     </div>
-                    <div className="space-y-0.5 overflow-hidden">
-                      <h4 className="font-bold text-[#1F2937] text-sm truncate">{contact.name}</h4>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded border uppercase text-[#123B5D] bg-[#DCFCE7] border-[#16A36A]/30">
-                        {contact.role}
-                      </span>
+                    <div className="space-y-1 overflow-hidden flex-1">
+                      <div className="flex items-center justify-between gap-1">
+                        <h4 className="font-bold text-[#1F2937] text-sm truncate">
+                          {displayName}
+                        </h4>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[9px] font-bold px-1.5 py-0.2 rounded border uppercase text-[#123B5D] bg-[#DCFCE7] border-[#16A36A]/30">
+                          {contact.role || "Advisor"}
+                        </span>
+                        {contact.email && (
+                          <span className="text-[10px] text-[#64748B] truncate block">
+                            {contact.email.split("@")[0]}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </button>
                 );
@@ -171,30 +222,31 @@ export default function AdvisoryPage() {
         </div>
 
         {/* Chat Thread Area */}
-        <div className="flex-grow flex flex-col justify-between bg-white">
+        <div className="flex-grow flex flex-col justify-between bg-white overflow-hidden">
           {activeContact ? (
             <>
               {/* Active Header */}
               <div className="p-4 border-b border-[#E2E8F0] bg-white flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 border border-[#16A36A]/30 rounded-xl text-xs bg-[#DCFCE7] text-[#16A36A]">
-                    <FiUser />
+                  <div className="w-10 h-10 rounded-2xl bg-[#DCFCE7] border border-[#BBF7D0] text-[#16A36A] flex items-center justify-center font-bold text-xs">
+                    {getInitials(activeContact)}
                   </div>
                   <div>
                     <h4 className="font-bold text-[#123B5D] text-sm flex items-center gap-2 font-outfit">
-                      {activeContact.name}
+                      {getContactDisplayName(activeContact)}
                       <span className="text-[10px] font-bold text-[#123B5D] bg-[#DCFCE7] px-2 py-0.5 rounded uppercase border border-[#16A36A]/30">
-                        {activeContact.role}
+                        {activeContact.role || "Certified Advisor"}
                       </span>
                     </h4>
-                    <p className="text-[10px] text-[#64748B] font-mono">{activeContact.email}</p>
+                    <p className="text-[11px] text-[#64748B] font-mono">{activeContact.email}</p>
                   </div>
                 </div>
-                {isAdvisor && (
-                  <span className="text-[10px] font-bold text-[#123B5D] bg-[#DCFCE7] px-2.5 py-1 rounded-full border border-[#16A36A]/30">
-                    Active Advisory Channel
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] font-bold text-[#16A36A] bg-[#DCFCE7] px-2.5 py-1 rounded-full border border-[#16A36A]/30 flex items-center gap-1">
+                    <FiCheckCircle className="w-3 h-3" />
+                    Verified Sikka Advisor
                   </span>
-                )}
+                </div>
               </div>
 
               {/* Messages feed */}
@@ -205,12 +257,16 @@ export default function AdvisoryPage() {
                   </div>
                 ) : messages.length === 0 ? (
                   <div className="text-center text-xs text-[#64748B] py-10 space-y-1">
-                    <p>No messages in this chat room yet.</p>
-                    <p>{isAdvisor ? "Type a financial recommendation below for your client." : "Type a note below to start the conversation."}</p>
+                    <p className="font-semibold text-[#1F2937]">No messages in this chat room yet.</p>
+                    <p>
+                      {isAdvisor
+                        ? "Type a financial recommendation below for your client."
+                        : `Start a conversation with ${getContactDisplayName(activeContact)} for personalized financial advice.`}
+                    </p>
                   </div>
                 ) : (
                   messages.map((msg, idx) => {
-                    const isOutgoing = msg.senderId.toString() === user.id.toString();
+                    const isOutgoing = msg.senderId.toString() === user?.id?.toString() || msg.senderId.toString() === user?._id?.toString();
                     return (
                       <div
                         key={idx}
@@ -267,8 +323,12 @@ export default function AdvisoryPage() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyPress}
-                  placeholder={isAdvisor ? "Write financial advice or recommendation..." : "Type message..."}
-                  className="flex-grow px-4 py-2.5 bg-white border border-[#E2E8F0] placeholder-[#94A3B8] text-[#1F2937] text-xs rounded-xl focus:outline-none focus:border-[#16A36A] focus:ring-1 focus:ring-[#16A36A] transition-all shadow-2xs"
+                  placeholder={
+                    isAdvisor
+                      ? "Write financial advice or recommendation..."
+                      : `Ask ${getContactDisplayName(activeContact)} a question...`
+                  }
+                  className="flex-grow px-4 py-2.5 bg-white border border-[#E2E8F0] placeholder-[#94A3B8] text-[#1F2937] text-xs rounded-xl focus:outline-none focus:border-[#16A36A] focus:ring-1 focus:ring-[#16A36A] transition-all"
                 />
                 <button
                   onClick={handleSend}
