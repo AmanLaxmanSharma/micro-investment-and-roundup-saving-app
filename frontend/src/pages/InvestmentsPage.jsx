@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useEffect, useState, useRef } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import api from "../services/api";
 import { parseAmount } from "../utils/parseAmount";
@@ -11,7 +11,9 @@ import {
   FiBriefcase,
   FiArrowUpRight,
   FiCheckCircle,
+  FiLayers,
 } from "react-icons/fi";
+import LiveMarketWatcher from "../components/invest/LiveMarketWatcher";
 
 export default function InvestmentsPage() {
   const [investments, setInvestments] = useState([]);
@@ -19,6 +21,8 @@ export default function InvestmentsPage() {
   const [portfolios, setPortfolios] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+
+  const formSectionRef = useRef(null);
 
   const {
     control,
@@ -62,8 +66,46 @@ export default function InvestmentsPage() {
 
   const selectPortfolioCard = (p) => {
     setValue("portfolioName", p.name);
-    setValue("allocation", p.riskLevel === "conservative" ? "stable" : p.riskLevel === "moderate" ? "balanced" : "growth");
+    setValue(
+      "allocation",
+      p.riskLevel === "conservative"
+        ? "stable"
+        : p.riskLevel === "moderate"
+        ? "balanced"
+        : "growth"
+    );
     setValue("riskLevel", p.riskLevel);
+  };
+
+  // Callback when a user clicks "Allocate via Sikka" on any real-time stock card
+  const handleSelectStockFromMarket = (stock) => {
+    let matchedPortfolio = null;
+
+    if (stock.category === "etf_gold") {
+      matchedPortfolio = portfolios.find((p) => p.riskLevel === "conservative") || portfolios[0];
+    } else if (stock.category === "global_tech") {
+      matchedPortfolio = portfolios.find((p) => p.riskLevel === "aggressive") || portfolios[portfolios.length - 1];
+    } else {
+      matchedPortfolio = portfolios.find((p) => p.riskLevel === "moderate") || portfolios[1] || portfolios[0];
+    }
+
+    if (matchedPortfolio) {
+      selectPortfolioCard(matchedPortfolio);
+      setValue("portfolioName", `${matchedPortfolio.name} (${stock.ticker})`);
+    } else {
+      setValue("portfolioName", `Direct: ${stock.ticker} (${stock.name})`);
+      setValue("riskLevel", "moderate");
+      setValue("allocation", "growth");
+    }
+
+    // Suggested micro-investment base
+    setValue("amount", stock.currency === "INR" ? Math.min(stock.currentPrice, 500).toFixed(0) : "100.00");
+
+    toast.info(`Selected ${stock.ticker} for micro-investment allocation.`);
+
+    if (formSectionRef.current) {
+      formSectionRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
   };
 
   const onSubmit = async (data) => {
@@ -77,11 +119,13 @@ export default function InvestmentsPage() {
 
     setSubmitting(true);
     try {
-      const response = await api.post("/api/investments", {
+      await api.post("/api/investments", {
         ...data,
         amount: investAmount,
       });
-      toast.success(`Successfully invested ₹${investAmount.toFixed(2)} into ${data.portfolioName}!`);
+      toast.success(
+        `Successfully invested ₹${investAmount.toFixed(2)} into ${data.portfolioName}!`
+      );
       reset();
       fetchData();
     } catch (err) {
@@ -95,20 +139,21 @@ export default function InvestmentsPage() {
     return (
       <div className="min-h-[60vh] flex items-center justify-center gap-3">
         <div className="w-6 h-6 border-2 border-[#16A36A] border-t-transparent rounded-full animate-spin" />
-        <span className="text-[#64748B]">Loading investment catalog...</span>
+        <span className="text-[#64748B]">Loading investment center...</span>
       </div>
     );
   }
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10 space-y-10">
+      {/* Header */}
       <div className="space-y-2">
         <h2 className="text-3xl font-extrabold tracking-tight text-[#123B5D] flex items-center gap-3 font-outfit">
           <FiBriefcase className="text-[#16A36A]" />
           Investments Center
         </h2>
         <p className="text-sm text-[#64748B]">
-          Allocate your liquid wallet funds into managed investment portfolios to grow your wealth automatically.
+          Allocate your liquid wallet funds into managed ETF portfolios and track live share market quotes in real time via Socket.io.
         </p>
       </div>
 
@@ -137,14 +182,21 @@ export default function InvestmentsPage() {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-5 gap-10 items-start">
+      {/* Real-Time Live Share Market & Socket.io Section */}
+      <LiveMarketWatcher onSelectStockForInvestment={handleSelectStockFromMarket} />
+
+      {/* Managed Portfolios & Allocation Section */}
+      <div ref={formSectionRef} className="grid lg:grid-cols-5 gap-10 items-start pt-6">
         {/* Selection & Form */}
         <div className="lg:col-span-3 space-y-6">
-          <h3 className="text-xl font-bold text-[#123B5D] font-outfit">Select Investment Fund</h3>
+          <h3 className="text-xl font-bold text-[#123B5D] font-outfit flex items-center gap-2">
+            <FiLayers className="text-[#16A36A]" />
+            Managed Sikka Portfolios
+          </h3>
           
           <div className="grid sm:grid-cols-3 gap-4">
             {portfolios.map((p) => {
-              const isSelected = selectedPortfolioName === p.name;
+              const isSelected = selectedPortfolioName?.startsWith(p.name);
               return (
                 <button
                   key={p._id}
@@ -197,7 +249,10 @@ export default function InvestmentsPage() {
           </div>
 
           {selectedPortfolioName && (
-            <form onSubmit={handleSubmit(onSubmit)} className="p-6 rounded-3xl border border-[#E2E8F0] bg-white shadow-sm space-y-4 max-w-md">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="p-6 rounded-3xl border border-[#E2E8F0] bg-white shadow-sm space-y-4 max-w-md animate-in fade-in duration-300"
+            >
               <h4 className="font-bold text-[#123B5D] flex items-center gap-2 font-outfit">
                 <FiPlusCircle className="text-[#16A36A]" />
                 Allocate Capital: {selectedPortfolioName}
@@ -244,7 +299,7 @@ export default function InvestmentsPage() {
               <FiActivity className="w-8 h-8 text-[#94A3B8] mx-auto" />
               <p className="text-[#1F2937] font-semibold text-sm">No investment allocations yet.</p>
               <p className="text-xs text-[#64748B]">
-                Choose a fund on the left and invest cash from your Sikka Wallet.
+                Choose a fund or live stock above and invest cash from your Sikka Wallet.
               </p>
             </div>
           ) : (

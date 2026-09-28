@@ -17,6 +17,7 @@ import walletRoutes from "./routes/walletRoutes.js";
 import goalRoutes from "./routes/goalRoutes.js";
 import aiRoutes from "./routes/aiRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
+import marketRoutes from "./routes/marketRoutes.js";
 import { connectDB } from "./config/db.js";
 import { seedPortfolios } from "./utils/portfolioStore.js";
 
@@ -84,6 +85,7 @@ app.use("/api/wallet", walletRoutes);
 app.use("/api/goals", goalRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/messages", messageRoutes);
+app.use("/api/market", marketRoutes);
 
 
 // Global Error Handler
